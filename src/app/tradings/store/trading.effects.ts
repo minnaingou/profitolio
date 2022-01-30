@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, concat, map, of, switchMap, throwError } from 'rxjs';
 import { Trading } from 'src/app/shared/trading.model';
+import { UiService } from 'src/app/shared/ui.service';
 import * as TradingActions from '../store/trading.actions';
 import { TradingService } from '../trading.service';
 
@@ -9,7 +10,8 @@ import { TradingService } from '../trading.service';
 export class TradingEffects {
   constructor(
     private actions$: Actions,
-    private tradingService: TradingService
+    private tradingService: TradingService,
+    private uiService: UiService
   ) {}
 
   storeTrading = createEffect(() => {
@@ -18,10 +20,18 @@ export class TradingEffects {
       switchMap((storeTrading: TradingActions.StoreTrading) => {
         return this.tradingService.storeTrading(storeTrading.payload).pipe(
           map(() => {
+            this.uiService.displaySnackbar.next({
+              error: false,
+              message: 'Trade record saved.',
+            });
             return new TradingActions.StoreTradingSuccess(storeTrading.payload);
           }),
-          catchError((error) => {
-            return of(new TradingActions.DisplayError(error));
+          catchError(() => {
+            this.uiService.displaySnackbar.next({
+              error: true,
+              message: 'Failed to save trade record.',
+            });
+            return of({ type: 'DUMMY' });
           })
         );
       })

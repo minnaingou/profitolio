@@ -1,7 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { PAGE_HOME, TOOLBAR_ADD_DONE } from 'src/app/shared/ui-constants';
+import {
+  PAGE_HOME,
+  TOOLBAR_ADD_DONE,
+  TOOLBAR_REFRESH,
+} from 'src/app/shared/ui-constants';
 import { UiService } from 'src/app/shared/ui.service';
 
 @Component({
@@ -27,15 +31,20 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     this.toolbarIconsSubscription.unsubscribe();
   }
 
-  onAdd() {
-    this.router.navigate(['/new']);
-  }
-
-  onBack() {
-    this.router.navigate(['../']);
-  }
-
-  onToolbarAction() {
-    this.uiService.toolbarButtonClicked.next(TOOLBAR_ADD_DONE);
+  onToolbarAction(action: string) {
+    switch (action) {
+      case 'ADD':
+        this.router.navigate(['/new']);
+        break;
+      case 'BACK':
+        this.router.navigate(['../']);
+        break;
+      case 'ADD_DONE':
+        this.uiService.toolbarButtonClicked.next(TOOLBAR_ADD_DONE);
+        break;
+      case 'REFRESH':
+        this.uiService.toolbarButtonClicked.next(TOOLBAR_REFRESH);
+        break;
+    }
   }
 }

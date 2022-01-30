@@ -4,25 +4,22 @@
       <mat-icon>menu</mat-icon>
     </button>
     <ng-template #showBack>
-      <button mat-icon-button (click)="onBack()">
+      <button mat-icon-button (click)="onToolbarAction('BACK')">
         <mat-icon>arrow_back</mat-icon>
       </button>
     </ng-template>
     <span><a routerLink="/" class="link mat-primary">Profito</a></span>
     <span class="spacer"></span>
     <div *ngIf="currentpage == 'PAGE_HOME'">
-      <button mat-icon-button>
+      <button mat-icon-button (click)="onToolbarAction('REFRESH')">
         <mat-icon>refresh</mat-icon>
       </button>
-      <button mat-icon-button (click)="onAdd()">
+      <button mat-icon-button (click)="onToolbarAction('ADD')">
         <mat-icon>add</mat-icon>
-      </button>
-      <button mat-icon-button>
-        <mat-icon>filter_list</mat-icon>
       </button>
     </div>
     <div *ngIf="currentpage == 'PAGE_ADD'">
-      <button mat-icon-button (click)="onToolbarAction()">
+      <button mat-icon-button (click)="onToolbarAction('ADD_DONE')">
         <mat-icon>done</mat-icon>
       </button>
     </div>

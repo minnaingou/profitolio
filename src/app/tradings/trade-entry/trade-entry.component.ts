@@ -23,7 +23,6 @@ import * as TradingActions from '../store/trading.actions';
 })
 export class TradeEntryComponent implements OnInit, OnDestroy {
   entryForm!: FormGroup;
-  typeControl = new FormControl('buy', Validators.required);
   dateControl = new FormControl(new Date(), Validators.required);
   symbolControl = new FormControl(null, Validators.required);
   exchangeControl = new FormControl(null, Validators.required);
@@ -33,8 +32,7 @@ export class TradeEntryComponent implements OnInit, OnDestroy {
 
   validForm: boolean = true;
 
-  exchangeList: string[] = ['Binance', 'OKEx'];
-  //symbolList: string[] = ['ETH', 'ADA', 'BNB'];
+  exchangeList: string[] = [];
   symbolList: string[] = [];
 
   toolbarActionSubscription: Subscription;
@@ -42,13 +40,13 @@ export class TradeEntryComponent implements OnInit, OnDestroy {
 
   constructor(
     formBuilder: FormBuilder,
-    private router: Router,
     private store: Store<fromApp.AppState>,
     private uiService: UiService,
+    private router: Router,
     private dialog: MatDialog
   ) {
     this.entryForm = formBuilder.group({
-      type: this.typeControl,
+      type: ['buy', Validators.required],
       date: this.dateControl,
       symbol: this.symbolControl,
       exchange: this.exchangeControl,

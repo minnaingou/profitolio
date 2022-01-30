@@ -4,3 +4,4 @@ export const PAGE_ADD = 'PAGE_ADD';
 
 // Toolbar button actions
 export const TOOLBAR_ADD_DONE = 'TOOLBAR_ADD_DONE';
+export const TOOLBAR_REFRESH = 'TOOLBAR_REFRESH';

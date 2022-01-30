@@ -4,8 +4,6 @@ import * as TradingActions from './trading.actions';
 
 export interface State {
   tradings: Trading[];
-  saved: boolean;
-  error: Error;
   latestPrices: LatestPrice[];
   coinList: string[];
   exchangeList: string[];
@@ -13,8 +11,6 @@ export interface State {
 
 const initialState: State = {
   tradings: [],
-  saved: false,
-  error: null,
   latestPrices: [],
   coinList: [],
   exchangeList: [],
@@ -28,25 +24,13 @@ export function tradingReducer(
     case TradingActions.STORE_TRADING_SUCCESS:
       return {
         ...state,
-        saved: true,
         tradings: [...state.tradings, action.payload],
         latestPrices: [],
-      };
-    case TradingActions.DISPLAY_ERROR:
-      return {
-        ...state,
-        error: action.payload,
       };
     case TradingActions.FETCH_TRADINGS_SUCCESS:
       return {
         ...state,
         tradings: action.payload,
-      };
-    case TradingActions.SNACKBAR_DISPLAYED:
-      return {
-        ...state,
-        saved: false,
-        error: null,
       };
     case TradingActions.FETCH_LATEST_PRICES_SUCCESS:
       return {
@@ -62,6 +46,12 @@ export function tradingReducer(
       return {
         ...state,
         exchangeList: action.payload,
+      };
+    case TradingActions.CLEAR_ALL:
+      return {
+        ...state,
+        tradings: [],
+        latestPrices: [],
       };
     default:
       return state;

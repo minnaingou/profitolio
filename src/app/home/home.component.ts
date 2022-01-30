@@ -2,8 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
-
-import { PAGE_HOME } from '../shared/ui-constants';
+import { PAGE_HOME, TOOLBAR_REFRESH } from '../shared/ui-constants';
 import { UiService } from '../shared/ui.service';
 import * as fromApp from '../store/app.reducer';
 import * as TradingActions from '../tradings/store/trading.actions';
@@ -14,6 +13,8 @@ import * as TradingActions from '../tradings/store/trading.actions';
 })
 export class HomeComponent implements OnInit, OnDestroy {
   tradingStoreSubscription: Subscription;
+  snackbarSubscription: Subscription;
+  toolbarActionSubscription: Subscription;
 
   constructor(
     private uiService: UiService,
@@ -23,22 +24,24 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.uiService.pageChanged.next(PAGE_HOME);
-    this.tradingStoreSubscription = this.store
-      .select('trading')
-      .subscribe((state) => {
-        if (state.saved) {
-          this.store.dispatch(new TradingActions.SnackbarDisplayed());
-          this._snackBar.open('Trade record saved.', 'OK');
-        }
-        if (state.error) {
-          this.store.dispatch(new TradingActions.SnackbarDisplayed());
-          this._snackBar.open('Failed to save trade record.', 'OK');
+    this.snackbarSubscription = this.uiService.displaySnackbar.subscribe(
+      (payload: { error: boolean; message: string }) => {
+        this._snackBar.open(payload.message, 'OK', { duration: 2 * 1000 });
+      }
+    );
+    this.store.dispatch(new TradingActions.FetchTradings());
+    this.toolbarActionSubscription =
+      this.uiService.toolbarButtonClicked.subscribe((action) => {
+        console.log('act', action);
+        if (action === TOOLBAR_REFRESH) {
+          this.store.dispatch(new TradingActions.ClearAll());
+          this.store.dispatch(new TradingActions.FetchTradings());
         }
       });
-      this.store.dispatch(new TradingActions.FetchTradings());
   }
 
   ngOnDestroy(): void {
-    this.tradingStoreSubscription.unsubscribe();
+    this.snackbarSubscription.unsubscribe();
+    this.toolbarActionSubscription.unsubscribe();
   }
 }

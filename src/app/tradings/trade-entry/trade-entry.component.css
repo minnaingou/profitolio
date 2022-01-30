@@ -1,0 +1,38 @@
+.switch {
+  position: relative;
+  width: 120px;
+  height: 52px;
+  text-align: center;
+
+  background: #00bc9c;
+  transition: all 0.2s ease;
+  border-radius: 5px;
+}
+input[type="radio"] {
+  display: none;
+}
+.switch label {
+  cursor: pointer;
+  color: rgba(0, 0, 0, 0.2);
+  width: 60px;
+  line-height: 50px;
+  transition: all 0.3s ease;
+}
+label[for="buy-switch"] {
+  position: absolute;
+  left: 0px;
+  height: 20px;
+}
+label[for="sell-switch"] {
+  position: absolute;
+  right: 0px;
+}
+#sell-switch:checked ~ .switch {
+  background: #eb4f37;
+}
+#buy-switch:checked ~ .switch label[for="buy-switch"] {
+  color: #fff;
+}
+#sell-switch:checked ~ .switch label[for="sell-switch"] {
+  color: #fff;
+}
