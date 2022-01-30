@@ -1,0 +1,33 @@
+<p class="app-toolbar">
+  <mat-toolbar color="primary">
+    <button mat-icon-button *ngIf="currentpage == 'PAGE_HOME'; else showBack">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <ng-template #showBack>
+      <button mat-icon-button (click)="onBack()">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+    </ng-template>
+    <span><a routerLink="/" class="link mat-primary">Profito</a></span>
+    <span class="spacer"></span>
+    <div *ngIf="currentpage == 'PAGE_HOME'">
+      <button mat-icon-button>
+        <mat-icon>refresh</mat-icon>
+      </button>
+      <button mat-icon-button (click)="onAdd()">
+        <mat-icon>add</mat-icon>
+      </button>
+      <button mat-icon-button>
+        <mat-icon>filter_list</mat-icon>
+      </button>
+    </div>
+    <div *ngIf="currentpage == 'PAGE_ADD'">
+      <button mat-icon-button (click)="onToolbarAction()">
+        <mat-icon>done</mat-icon>
+      </button>
+    </div>
+    <button mat-icon-button>
+      <mat-icon>more_vert</mat-icon>
+    </button>
+  </mat-toolbar>
+</p>

@@ -1,0 +1,27 @@
+.infobox {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.infobox > div {
+  flex-grow: 1;
+  width: 33%;
+  margin-bottom: 10px;
+}
+
+.infobox-header {
+  color: gray;
+  font-size: smaller;
+}
+
+.symbol-name {
+  color: darkblue;
+  font-weight: bold;
+  font-size: larger;
+  display: flex;
+  align-items: center;
+}
+
+.infobox > div > p {
+  font-weight: 450;
+}

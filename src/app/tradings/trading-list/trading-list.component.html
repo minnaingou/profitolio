@@ -1,0 +1,18 @@
+<div>
+  <div *ngFor="let tradingItem of tradingList">
+    <app-trading-item [item]="tradingItem"></app-trading-item>
+    <mat-divider></mat-divider>
+  </div>
+  <div
+    *ngIf="tradingList.length === 0"
+    style="
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 350px;
+    "
+  >
+    Track your tradings by tapping the Add (+) button
+  </div>
+</div>

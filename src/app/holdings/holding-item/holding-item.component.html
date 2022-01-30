@@ -1,0 +1,105 @@
+<div style="padding: 10px 0px; padding-bottom: 10px">
+  <p class="symbol-name">
+    {{ item.symbol | uppercase }} <mat-icon>chevron_right</mat-icon>
+  </p>
+  <div class="infobox">
+    <div>
+      <span class="infobox-header">Holding</span><br />
+      <p>{{ item.holding | number }}</p>
+    </div>
+    <div>
+      <span class="infobox-header">Unit Cost</span><br />
+      <p>${{ item.unitCost | number }}</p>
+    </div>
+    <div>
+      <span class="infobox-header">Total Cost</span><br />
+      <p>${{ item.totalCost | number }}</p>
+    </div>
+    <div>
+      <span class="infobox-header">Realised P&L</span><br />
+      <p
+        class="chip"
+        [ngClass]="{
+          'green-chip': item.realisedPL > 0,
+          'red-chip': item.realisedPL < 0
+        }"
+        *ngIf="item.realisedPL != null; else loadingRealisedPL"
+      >
+        {{
+          item.realisedPL < 0
+            ? "- $" + (item.realisedPL * -1 | number)
+            : "+ $" + (item.realisedPL | number)
+        }}
+      </p>
+      <ng-template #loadingRealisedPL>. . .</ng-template>
+    </div>
+    <div>
+      <span class="infobox-header">Market Value</span><br />
+      <p *ngIf="item.marketValue != null; else loadingMarketValue">
+        ${{ item.marketValue | number }}
+      </p>
+      <ng-template #loadingMarketValue>. . .</ng-template>
+    </div>
+    <div>
+      <span class="infobox-header">Total Market Value</span><br />
+      <p *ngIf="item.totalWorth != null; else loadingTotalWorth">
+        ${{ item.totalWorth | number }}
+      </p>
+      <ng-template #loadingTotalWorth>. . .</ng-template>
+    </div>
+    <div>
+      <span class="infobox-header">Total Gain</span><br />
+      <p
+        class="chip"
+        [ngClass]="{
+          'green-chip': item.totalGain > 0,
+          'red-chip': item.totalGain < 0
+        }"
+        *ngIf="item.totalGain != null; else loadingTotalGain"
+      >
+        {{
+          item.totalGain < 0
+            ? "- $" + (item.totalGain * -1 | number)
+            : "+ $" + (item.totalGain | number)
+        }}
+      </p>
+      <ng-template #loadingTotalGain>. . .</ng-template>
+    </div>
+    <div>
+      <span class="infobox-header">Unrealised P&L %</span><br />
+      <p
+        class="chip"
+        [ngClass]="{
+          'green-chip': item.perUnrealisedPL > 0,
+          'red-chip': item.perUnrealisedPL < 0
+        }"
+        *ngIf="item.perUnrealisedPL != null; else loadingPerUnrealisedPL"
+      >
+        {{
+          item.perUnrealisedPL < 0
+            ? "- " + (item.perUnrealisedPL * -1 | number)
+            : "+ " + (item.perUnrealisedPL | number)
+        }}%
+      </p>
+      <ng-template #loadingPerUnrealisedPL>. . .</ng-template>
+    </div>
+    <div>
+      <span class="infobox-header">Unrealised P&L</span><br />
+      <p
+        class="chip"
+        [ngClass]="{
+          'green-chip': item.unrealisedPL > 0,
+          'red-chip': item.unrealisedPL < 0
+        }"
+        *ngIf="item.unrealisedPL != null; else loadingUnrealisedPL"
+      >
+        {{
+          item.unrealisedPL < 0
+            ? "- $" + (item.unrealisedPL * -1 | number)
+            : "+ $" + (item.unrealisedPL | number)
+        }}
+      </p>
+      <ng-template #loadingUnrealisedPL>. . .</ng-template>
+    </div>
+  </div>
+</div>

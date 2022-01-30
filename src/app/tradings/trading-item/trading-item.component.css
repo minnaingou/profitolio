@@ -1,0 +1,30 @@
+.item-header {  
+  margin: 10px 0px;
+}
+
+.symbol-name {
+  font-weight: 450;
+  font-size: medium;
+  color: darkblue;
+  display: flex;
+  align-items: center;
+}
+
+.infobox {
+  display: flex;
+  justify-content: center;
+}
+
+.infobox > div {
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.row-space {
+  display: flex;
+  justify-content: space-between;
+}
+
+.row {
+  display: flex;
+}

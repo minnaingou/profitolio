@@ -1,3 +1,5 @@
 export const environment = {
-  production: true
+  production: true,
+  firebaseUrl:
+    'https://profitolio-default-rtdb.asia-southeast1.firebasedatabase.app/',  
 };

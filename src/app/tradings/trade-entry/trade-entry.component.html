@@ -1,0 +1,65 @@
+<form [formGroup]="entryForm" class="wrapper column">
+  <mat-form-field appearance="fill">
+    <mat-select [formControl]="typeControl">
+      <mat-option value="buy"> Buy </mat-option>
+      <mat-option value="sell"> Sell </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Choose a date</mat-label>
+    <input
+      matInput
+      [matDatepicker]="picker"
+      (click)="picker.open()"
+      [formControl]="dateControl"
+    />
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Symbol</mat-label>
+    <input
+      type="text"
+      placeholder="Symbol"
+      matInput
+      [formControl]="symbolControl"
+      [matAutocomplete]="symbol"
+    />
+    <mat-autocomplete #symbol="matAutocomplete">
+      <mat-option *ngFor="let symbol of symbolList" [value]="symbol">
+        {{ symbol }}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Exchange</mat-label>
+    <input
+      type="text"
+      placeholder="Exchange"
+      matInput
+      [formControl]="exchangeControl"
+      [matAutocomplete]="exchange"
+    />
+    <mat-autocomplete #exchange="matAutocomplete">
+      <mat-option *ngFor="let exchange of exchangeList" [value]="exchange">
+        {{ exchange }}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Amount</mat-label>
+    <input type="number" matInput [formControl]="amountControl" #amount />
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Price</mat-label>
+    <input type="number" matInput [formControl]="priceControl" #price />
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Total</mat-label>
+    <input
+      matInput
+      [formControl]="totalControl"
+      [value]="+amount.value * +price.value | number"
+    />
+  </mat-form-field>
+</form>

@@ -1,18 +1,79 @@
 import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatButtonModule } from '@angular/material/button';
+import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatDialogModule } from '@angular/material/dialog';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { HeaderComponent } from './header/header.component';
+import { ToolbarComponent } from './header/toolbar/toolbar.component';
+import { HoldingItemComponent } from './holdings/holding-item/holding-item.component';
+import { HoldingListComponent } from './holdings/holding-list/holding-list.component';
+import { HomeComponent } from './home/home.component';
+import { TabbarComponent } from './ui/tabbar/tabbar.component';
+import { TradeEntryComponent } from './tradings/trade-entry/trade-entry.component';
+import { TradingItemComponent } from './tradings/trading-item/trading-item.component';
+import { TradingListComponent } from './tradings/trading-list/trading-list.component';
+import * as fromApp from '../app/store/app.reducer';
+import { environment } from 'src/environments/environment';
+import { DialogComponent } from './ui/dialog/dialog.component';
+import { EffectsModule } from '@ngrx/effects';
+import { TradingEffects } from './tradings/store/trading.effects';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    HeaderComponent,
+    ToolbarComponent,
+    TabbarComponent,
+    HomeComponent,
+    HoldingListComponent,
+    HoldingItemComponent,
+    TradingListComponent,
+    TradingItemComponent,
+    TradeEntryComponent,
+    DialogComponent,
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    ReactiveFormsModule,
+    StoreModule.forRoot(fromApp.appReducer),
+    EffectsModule.forRoot([TradingEffects]),
+    StoreDevtoolsModule.instrument({ logOnly: environment.production }),
+    HttpClientModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatButtonModule,
+    MatTabsModule,
+    MatDividerModule,
+    MatFormFieldModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatInputModule,
+    MatAutocompleteModule,
+    MatSelectModule,
+    MatSnackBarModule,
+    MatDialogModule,
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [{ provide: MAT_DATE_LOCALE, useValue: 'en-GB' }],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

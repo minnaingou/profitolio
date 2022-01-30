@@ -1,1 +1,57 @@
 /* You can add global styles to this file, and also import other style files */
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 56px 0 0 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+.mat-tab-body-wrapper,
+.wrapper {
+  margin: 0 10px 0 10px;
+  padding: 0 16px;
+}
+
+.mat-snack-bar-handset {
+  max-width: 50%;
+}
+
+.chip {
+  display: inline-block;
+  padding: 0 10px;
+  border-radius: 5px;
+  background-color: rgb(177, 177, 177);
+}
+
+.green-chip {
+  background-color: rgb(184, 250, 228);
+  color: green;
+}
+
+.red-chip {
+  background-color: rgb(241, 209, 199);
+  color: red;
+}
+
+.caption {
+  color: gray;
+  font-size: small;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+}
+
+.link {
+  text-decoration: none;
+  cursor: pointer;
+  color: inherit;
+}

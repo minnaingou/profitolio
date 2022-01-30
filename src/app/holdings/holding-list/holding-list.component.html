@@ -1,0 +1,18 @@
+<div>
+  <div *ngFor="let holdingItem of holdingItems">
+    <app-holding-item [item]="holdingItem"></app-holding-item>
+    <mat-divider></mat-divider>
+  </div>
+  <div
+    *ngIf="holdingItems.length === 0"
+    style="
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 350px;
+    "
+  >
+    Track your holdings by tapping the Add (+) button
+  </div>
+</div>
