@@ -1,14 +1,21 @@
 <p class="app-toolbar">
   <mat-toolbar color="primary">
-    <button mat-icon-button *ngIf="currentpage == 'PAGE_HOME'; else showBack">
-      <mat-icon>menu</mat-icon>
-    </button>
-    <ng-template #showBack>
-      <button mat-icon-button (click)="onToolbarAction('BACK')">
-        <mat-icon>arrow_back</mat-icon>
+    <div style="display: flex; align-items: center">
+      <button mat-icon-button *ngIf="currentpage == 'PAGE_HOME'; else showBack">
+        <mat-icon>menu</mat-icon>
       </button>
-    </ng-template>
-    <span><a routerLink="/" class="link mat-primary">Profito</a></span>
+      <ng-template #showBack>
+        <button mat-icon-button (click)="onToolbarAction('BACK')">
+          <mat-icon>arrow_back</mat-icon>
+        </button>
+      </ng-template>
+      <!-- <span><a routerLink="/" class="link mat-primary">Profitolio</a></span> -->
+      <span
+        ><img
+          src="/assets/harlow.png"
+          style="max-height: 30px; padding-top: 15px"
+      /></span>
+    </div>
     <span class="spacer"></span>
     <div *ngIf="currentpage == 'PAGE_HOME'">
       <button mat-icon-button (click)="onToolbarAction('REFRESH')">
@@ -19,12 +26,17 @@
       </button>
     </div>
     <div *ngIf="currentpage == 'PAGE_ADD'">
-      <button mat-icon-button (click)="onToolbarAction('ADD_DONE')">
+      <button mat-icon-button (click)="onToolbarAction('ENTRY_DONE')">
         <mat-icon>done</mat-icon>
       </button>
     </div>
-    <button mat-icon-button>
-      <mat-icon>more_vert</mat-icon>
-    </button>
+    <div *ngIf="currentpage == 'PAGE_EDIT'">
+      <button mat-icon-button (click)="onToolbarAction('DELETE')">
+        <mat-icon>delete</mat-icon>
+      </button>
+      <button mat-icon-button (click)="onToolbarAction('ENTRY_DONE')">
+        <mat-icon>done</mat-icon>
+      </button>
+    </div>
   </mat-toolbar>
 </p>

@@ -1,16 +1,20 @@
-<div>
+<div (click)="onEdit()">
   <div class="item-header row-space">
-    <span class="symbol-name"
-      >{{ item.symbol | uppercase }} <mat-icon>chevron_right</mat-icon></span
-    >
+    <span class="symbol-name">
+      {{ item.symbol | uppercase }}
+      <mat-icon *ngIf="editable; else locked">chevron_right</mat-icon>
+      <ng-template #locked
+        ><mat-icon style="transform: scale(0.5)">lock</mat-icon></ng-template
+      >
+    </span>
     <span class="caption">{{ item.exchange }}</span>
   </div>
   <span class="row">
     <p
       class="chip"
       [ngClass]="{
-        'green-chip': item.type === 'buy',
-        'red-chip': item.type === 'Sell'
+        'green-chip': isBuy,
+        'red-chip': isSell
       }"
     >
       {{ item.type | titlecase }}
@@ -20,8 +24,18 @@
   </span>
   <div class="infobox">
     <div style="text-align: left; flex: 2">
-      <span class="caption">Amount: </span>
-      <span class="focus">{{ item.amount }}</span>
+      <div *ngIf="isSell">
+        <span class="caption">Amount: </span>
+        <span
+          >{{ item.amount }}
+          <span class="sub-caption">{{ item.symbol | uppercase }}</span></span
+        >
+      </div>
+      <div class="focus" *ngIf="isBuy">
+        {{ item.amount }}
+        <span class="sub-caption">HODL </span> /
+        {{ item.startingAmount }}
+      </div>
     </div>
     <div class="caption" style="flex: 1">x</div>
     <div style="flex: 2">
@@ -33,5 +47,23 @@
       <span class="caption">Total: </span>
       <span class="focus">${{ item.amount * item.price | number }}</span>
     </div>
+  </div>
+  <div class="footer-info" *ngIf="isSell">
+    <span class="caption">Realised P&L: </span> &nbsp;
+    <span
+      class="focus chip"
+      [ngClass]="{
+        'green-chip': item.sellingInfo.realisedPL > 0,
+        'red-chip': item.sellingInfo.realisedPL < 0
+      }"
+    >
+      {{ item.sellingInfo.realisedPL >= 0 ? "+" : "-" }}
+      ${{ item.sellingInfo.realisedPL | number }}
+    </span>
+  </div>
+  <div class="footer-info" *ngIf="isBuy && item.updatedDate !== item.date">
+    <span class="caption">
+      Last Trade: {{ item.updatedDate | date: "dd/MM/yyyy" }}
+    </span>
   </div>
 </div>

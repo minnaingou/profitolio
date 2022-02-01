@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { map, Subscription } from 'rxjs';
+import { map, Subscription, take } from 'rxjs';
 import { Holding } from 'src/app/shared/holding.model';
 import { LatestPrice } from 'src/app/shared/latestPrice.model';
 import { Trading } from 'src/app/shared/trading.model';
@@ -14,12 +14,13 @@ import * as TradingActions from '../../tradings/store/trading.actions';
 })
 export class HoldingListComponent implements OnInit, OnDestroy {
   holdingItems: Holding[] = [];
-  tradingStoreSubscription: Subscription;
+
+  tradeingStoreSubscription: Subscription;
 
   constructor(private store: Store<fromApp.AppState>) {}
 
   ngOnInit(): void {
-    this.tradingStoreSubscription = this.store
+    this.tradeingStoreSubscription = this.store
       .select('trading')
       .pipe(
         map((state) =>
@@ -32,7 +33,7 @@ export class HoldingListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.tradingStoreSubscription.unsubscribe();
+    this.tradeingStoreSubscription.unsubscribe();
   }
 
   populateHoldings(
@@ -49,19 +50,22 @@ export class HoldingListComponent implements OnInit, OnDestroy {
     const holdings: Holding[] = Object.keys(symbolTradings).map((symbol) => {
       let totalHolding: number = 0;
       let totalInvested: number = 0;
+      let realisedPL = 0;
+      let totalWorth = null;
+      let unrealisedPL = null;
+      let perUnrealisedPL = null;
+
       symbolTradings[symbol].forEach((tradingItem: Trading) => {
-        if (tradingItem.holding) {
+        if (tradingItem.holding && tradingItem.type === 'buy') {
           totalHolding += tradingItem.amount;
           totalInvested += tradingItem.amount * tradingItem.price;
+        } else if (tradingItem.type === 'sell') {
+          realisedPL += tradingItem.sellingInfo.realisedPL;
         }
       });
       const latestPrice: number = latestPrices
         ? latestPrices.find((price) => price.symbol === symbol)?.price
         : null;
-      let realisedPL = 0;
-      let totalWorth = null;
-      let unrealisedPL = null;
-      let perUnrealisedPL = null;
       const unitCost = totalInvested / totalHolding;
       if (latestPrice) {
         totalWorth = latestPrice * totalHolding;
@@ -90,6 +94,6 @@ export class HoldingListComponent implements OnInit, OnDestroy {
     if (latestPrices.length == 0 && symbolList.length != 0) {
       this.store.dispatch(new TradingActions.FetchLatestPrices());
     }
-    return holdings;
+    return holdings.sort((a, b) => b.totalCost - a.totalCost);
   }
 }

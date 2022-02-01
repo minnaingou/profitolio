@@ -1,0 +1,39 @@
+<h3 mat-dialog-title>Pick a selling trade for {{ data.symbol }}</h3>
+<span class="caption"
+  >Showing trades with amount >= {{ data.amount | number }}</span
+>
+<div mat-dialog-content style="padding-top: 10px">
+  <p *ngIf="sellableTrades.length == 0">No trade data to display.</p>
+  <mat-selection-list
+    #trades
+    (selectionChange)="onSelection(trades.selectedOptions.selected)"
+    [multiple]="false"
+  >
+    <mat-list-option
+      *ngFor="let trade of sellableTrades"
+      [value]="trade"
+      [disableRipple]="true"
+    >
+      <label>
+        <div class="trade-item-container">
+          <div class="trade-item-column">
+            <input type="radio" name="trade" />
+            {{ trade.amount }} {{ trade.symbol | uppercase }} x ${{
+              trade.price
+            }}
+          </div>
+          <div class="trade-item-column">{{ trade.exchange }}</div>
+          <div class="trade-item-column" style="text-align: right; color: gray">
+            {{ trade.date | date: "dd/MM/yyyy" }}
+          </div>
+        </div>
+      </label>
+    </mat-list-option>
+  </mat-selection-list>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-button [mat-dialog-close]="data.sellingTrade" cdkFocusInitial>
+    OK
+  </button>
+</div>

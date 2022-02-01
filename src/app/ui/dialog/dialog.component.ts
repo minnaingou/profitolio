@@ -17,4 +17,8 @@ export class DialogComponent implements OnInit {
     this.content = this.data.content;
     if (this.data.closeLabel) this.closeLabel = this.data.closeLabel;
   }
+
+  onClose() {
+    this.data.onCloseHandler && this.data.onCloseHandler();
+  }
 }

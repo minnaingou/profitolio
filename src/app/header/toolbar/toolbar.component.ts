@@ -3,7 +3,8 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import {
   PAGE_HOME,
-  TOOLBAR_ADD_DONE,
+  TOOLBAR_DELETE,
+  TOOLBAR_ENTRY_DONE,
   TOOLBAR_REFRESH,
 } from 'src/app/shared/ui-constants';
 import { UiService } from 'src/app/shared/ui.service';
@@ -39,11 +40,14 @@ export class ToolbarComponent implements OnInit, OnDestroy {
       case 'BACK':
         this.router.navigate(['../']);
         break;
-      case 'ADD_DONE':
-        this.uiService.toolbarButtonClicked.next(TOOLBAR_ADD_DONE);
+      case 'ENTRY_DONE':
+        this.uiService.toolbarButtonClicked.next(TOOLBAR_ENTRY_DONE);
         break;
       case 'REFRESH':
         this.uiService.toolbarButtonClicked.next(TOOLBAR_REFRESH);
+        break;
+      case 'DELETE':
+        this.uiService.toolbarButtonClicked.next(TOOLBAR_DELETE);
         break;
     }
   }

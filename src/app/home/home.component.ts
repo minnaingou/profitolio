@@ -32,7 +32,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.store.dispatch(new TradingActions.FetchTradings());
     this.toolbarActionSubscription =
       this.uiService.toolbarButtonClicked.subscribe((action) => {
-        console.log('act', action);
         if (action === TOOLBAR_REFRESH) {
           this.store.dispatch(new TradingActions.ClearAll());
           this.store.dispatch(new TradingActions.FetchTradings());

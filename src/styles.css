@@ -40,6 +40,11 @@ body {
   font-size: small;
 }
 
+.sub-caption {
+  color: gray;
+  font-size: xx-small;
+}
+
 .row {
   display: flex;
   flex-direction: row;

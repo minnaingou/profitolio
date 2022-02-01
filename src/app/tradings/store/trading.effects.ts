@@ -17,14 +17,15 @@ export class TradingEffects {
   storeTrading = createEffect(() => {
     return this.actions$.pipe(
       ofType(TradingActions.STORE_TRADING),
-      switchMap((storeTrading: TradingActions.StoreTrading) => {
-        return this.tradingService.storeTrading(storeTrading.payload).pipe(
+      map((storeTrading: TradingActions.StoreTrading) => storeTrading.payload),
+      switchMap((payload: Trading) => {
+        return this.tradingService.storeTrading(payload).pipe(
           map(() => {
             this.uiService.displaySnackbar.next({
               error: false,
-              message: 'Trade record saved.',
+              message: 'Record is saved.',
             });
-            return new TradingActions.StoreTradingSuccess(storeTrading.payload);
+            return new TradingActions.StoreTradingSuccess(payload);
           }),
           catchError(() => {
             this.uiService.displaySnackbar.next({
@@ -41,11 +42,21 @@ export class TradingEffects {
   storeTradingSuccess = createEffect(() => {
     return this.actions$.pipe(
       ofType(TradingActions.STORE_TRADING_SUCCESS),
+      map(() => {
+        return new TradingActions.FetchTradings();
+      })
+    );
+  });
+
+  saveAutocompleteData = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(TradingActions.STORE_TRADING_SUCCESS),
       map(
         (storeTradingSuccess: TradingActions.StoreTradingSuccess) =>
           storeTradingSuccess.payload
       ),
       switchMap((payload) => {
+        // saving coin name and exchange name for autocomplete
         return this.tradingService.getCoinList().pipe(
           switchMap((coinListResponse: []) => {
             const coin: any = coinListResponse.find(
@@ -121,6 +132,76 @@ export class TradingEffects {
             })
           )
         );
+      })
+    );
+  });
+
+  amendBuyTrade = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(TradingActions.AMEND_BUY_TRADE),
+        map(
+          (amendBuyTrade: TradingActions.AmendBuyTrade) => amendBuyTrade.payload
+        ),
+        switchMap((payload: Trading) => {
+          return this.tradingService.patchTrading(payload.key, payload.symbol, {
+            amount: payload.amount,
+            updatedDate: new Date(),
+            holding: payload.holding,
+          });
+        })
+      );
+    },
+    { dispatch: false }
+  );
+
+  editTrade = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(TradingActions.EDIT_TRADE),
+      map((editTrade: TradingActions.EditTrade) => editTrade.payload),
+      switchMap((payload: { key: string; trading: Trading }) => {
+        let trading: Trading = { ...payload.trading };
+        return this.tradingService
+          .putTrading(payload.key, trading.symbol, trading)
+          .pipe(
+            map(() => {
+              this.uiService.displaySnackbar.next({
+                error: false,
+                message: 'Record is updated.',
+              });
+              return new TradingActions.EditTradeSuccess(payload);
+            }),
+            catchError(() => {
+              this.uiService.displaySnackbar.next({
+                error: true,
+                message: 'Failed to update trade record.',
+              });
+              return of({ type: 'DUMMY' });
+            })
+          );
+      })
+    );
+  });
+
+  deleteTrade = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(TradingActions.DELETE_TRADE),
+      map((deleteTrade: TradingActions.DeleteTrade) => deleteTrade.payload),
+      switchMap((payload) => {
+        return this.tradingService
+          .deleteTrading(payload.key, payload.symbol)
+          .pipe(
+            map(() => {
+              return new TradingActions.DeleteTradeSuccess(payload.key);
+            }),
+            catchError(() => {
+              this.uiService.displaySnackbar.next({
+                error: true,
+                message: 'Failed to delete trade record.',
+              });
+              return of({ type: 'DUMMY' });
+            })
+          );
       })
     );
   });

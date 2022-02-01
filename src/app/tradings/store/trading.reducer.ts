@@ -24,7 +24,16 @@ export function tradingReducer(
     case TradingActions.STORE_TRADING_SUCCESS:
       return {
         ...state,
-        tradings: [...state.tradings, action.payload],
+        latestPrices: [],
+      };
+    case TradingActions.EDIT_TRADE_SUCCESS:
+      return {
+        ...state,
+        tradings: state.tradings.map((trading) =>
+          trading.key === action.payload.key
+            ? { ...action.payload.trading, key: action.payload.key }
+            : trading
+        ),
         latestPrices: [],
       };
     case TradingActions.FETCH_TRADINGS_SUCCESS:
@@ -52,6 +61,13 @@ export function tradingReducer(
         ...state,
         tradings: [],
         latestPrices: [],
+      };
+    case TradingActions.DELETE_TRADE_SUCCESS:
+      return {
+        ...state,
+        tradings: state.tradings.filter(
+          (trading) => trading.key !== action.payload
+        ),
       };
     default:
       return state;

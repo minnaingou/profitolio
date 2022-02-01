@@ -1,0 +1,24 @@
+.trade-item-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.trade-item-column {
+  font-size: small;
+}
+
+.mat-list-base .mat-list-item .mat-list-item-content {
+  padding: 0 !important;
+}
+
+.mat-list-textt {
+  padding: 0 !important;
+}
+
+.mat-list-option,
+.mat-list-option:hover,
+.mat-list-option.mat-list-item-focus {
+  background: transparent;
+}

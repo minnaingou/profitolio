@@ -7,6 +7,17 @@
       padding-top: 15px;
     "
   >
+    <mat-form-field appearance="fill">
+      <mat-label>Choose a date</mat-label>
+      <input
+        matInput
+        [matDatepicker]="picker"
+        (click)="picker.open()"
+        [formControl]="dateControl"
+      />
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
     <div class="toggle-radio">
       <input
         type="radio"
@@ -28,28 +39,26 @@
         <span></span>
       </div>
     </div>
-    <mat-form-field appearance="fill">
-      <mat-label>Choose a date</mat-label>
-      <input
-        matInput
-        [matDatepicker]="picker"
-        (click)="picker.open()"
-        [formControl]="dateControl"
-      />
-      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-    </mat-form-field>
   </div>
 
   <mat-form-field appearance="fill">
     <mat-label>Symbol</mat-label>
     <input
       type="text"
-      placeholder="Symbol"
       matInput
       [formControl]="symbolControl"
       [matAutocomplete]="symbol"
+      [ngStyle]="{ 'text-transform': 'uppercase' }"
     />
+    <button
+      *ngIf="entryForm.get('symbol').value"
+      matSuffix
+      mat-icon-button
+      aria-label="Clear"
+      (click)="entryForm.get('symbol').setValue('')"
+    >
+      <mat-icon>close</mat-icon>
+    </button>
     <mat-autocomplete #symbol="matAutocomplete">
       <mat-option *ngFor="let symbol of symbolList" [value]="symbol">
         {{ symbol }}
@@ -60,11 +69,19 @@
     <mat-label>Exchange</mat-label>
     <input
       type="text"
-      placeholder="Exchange"
       matInput
       [formControl]="exchangeControl"
       [matAutocomplete]="exchange"
     />
+    <button
+      *ngIf="entryForm.get('exchange').value"
+      matSuffix
+      mat-icon-button
+      aria-label="Clear"
+      (click)="entryForm.get('exchange').setValue('')"
+    >
+      <mat-icon>close</mat-icon>
+    </button>
     <mat-autocomplete #exchange="matAutocomplete">
       <mat-option *ngFor="let exchange of exchangeList" [value]="exchange">
         {{ exchange }}
@@ -74,17 +91,54 @@
   <mat-form-field appearance="fill">
     <mat-label>Amount</mat-label>
     <input type="number" matInput [formControl]="amountControl" #amount />
+    <button
+      *ngIf="entryForm.get('amount').value"
+      matSuffix
+      mat-icon-button
+      aria-label="Clear"
+      (click)="entryForm.get('amount').setValue('')"
+    >
+      <mat-icon>close</mat-icon>
+    </button>
   </mat-form-field>
   <mat-form-field appearance="fill">
     <mat-label>Price</mat-label>
     <input type="number" matInput [formControl]="priceControl" #price />
+    <button
+      *ngIf="entryForm.get('price').value"
+      matSuffix
+      mat-icon-button
+      aria-label="Clear"
+      (click)="entryForm.get('price').setValue('')"
+    >
+      <mat-icon>close</mat-icon>
+    </button>
   </mat-form-field>
   <mat-form-field appearance="fill">
     <mat-label>Total</mat-label>
     <input
       matInput
       [formControl]="totalControl"
-      [value]="+amount.value * +price.value | number"
+      [value]="+amount.value * +price.value"
     />
   </mat-form-field>
+  <button
+    mat-raised-button
+    (click)="openSellingDialog()"
+    *ngIf="entryForm.get('type').value === 'sell'"
+    color="yellow"
+  >
+    <span *ngIf="sellingTrade; else pickOne">
+      Selling: {{ sellingTrade.symbol | uppercase }} - unit price ${{
+        sellingTrade.price
+      }}
+      | {{ sellingTrade.exchange }} |
+      {{ sellingTrade.date | date: "dd/MM/yyyy" }}
+    </span>
+    <ng-template #pickOne>
+      <span [ngStyle]="{ color: sellingTradeNotSelected ? 'red' : 'auto' }"
+        >Pick one trade to sell *</span
+      ></ng-template
+    >
+  </button>
 </form>

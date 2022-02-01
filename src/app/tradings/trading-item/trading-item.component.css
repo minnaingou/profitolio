@@ -1,4 +1,4 @@
-.item-header {  
+.item-header {
   margin: 10px 0px;
 }
 
@@ -18,6 +18,12 @@
 .infobox > div {
   margin-bottom: 10px;
   text-align: center;
+}
+
+.footer-info {
+  display: flex;
+  justify-content: end;
+  margin-bottom: 10px;
 }
 
 .row-space {

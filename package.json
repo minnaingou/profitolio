@@ -1,5 +1,5 @@
 {
-  "name": "profito",
+  "name": "profitolio",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -22,6 +22,7 @@
     "@angular/router": "~13.0.0",
     "@ngrx/effects": "^13.0.2",
     "@ngrx/store": "^13.0.2",
+    "decimal.js": "^10.3.1",
     "rxjs": "~7.4.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"

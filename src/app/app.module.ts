@@ -17,6 +17,7 @@ import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatListModule } from '@angular/material/list';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -35,6 +36,8 @@ import { DialogComponent } from './ui/dialog/dialog.component';
 import { EffectsModule } from '@ngrx/effects';
 import { TradingEffects } from './tradings/store/trading.effects';
 import { HttpClientModule } from '@angular/common/http';
+import { SellingTradeDialogComponent } from './tradings/trade-entry/selling-trade-dialog/selling-trade-dialog.component';
+import { ConfirmDialogComponent } from './ui/confirm-dialog/confirm-dialog.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +52,8 @@ import { HttpClientModule } from '@angular/common/http';
     TradingItemComponent,
     TradeEntryComponent,
     DialogComponent,
+    SellingTradeDialogComponent,
+    ConfirmDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -72,6 +77,7 @@ import { HttpClientModule } from '@angular/common/http';
     MatSelectModule,
     MatSnackBarModule,
     MatDialogModule,
+    MatListModule,
   ],
   providers: [{ provide: MAT_DATE_LOCALE, useValue: 'en-GB' }],
   bootstrap: [AppComponent],

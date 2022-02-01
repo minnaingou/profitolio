@@ -6,6 +6,11 @@ import { TradeEntryComponent } from './tradings/trade-entry/trade-entry.componen
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'new', component: TradeEntryComponent },
+  {
+    path: 'edit/:symbol/:key',
+    component: TradeEntryComponent,
+    data: { edit: true },
+  },
 ];
 
 @NgModule({

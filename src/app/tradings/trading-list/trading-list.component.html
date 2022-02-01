@@ -1,6 +1,6 @@
 <div>
   <div *ngFor="let tradingItem of tradingList">
-    <app-trading-item [item]="tradingItem"></app-trading-item>
+    <app-trading-item [item]="tradingItem" (edit)="onEdit($event)"></app-trading-item>
     <mat-divider></mat-divider>
   </div>
   <div

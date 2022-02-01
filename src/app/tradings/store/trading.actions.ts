@@ -13,6 +13,11 @@ export const FETCH_COIN_LIST_SUCCESS = '[Trading] Fetch Coin List Success';
 export const FETCH_EXCHANGE_LIST_SUCCESS =
   '[Trading] Fetch Exchange List Success';
 export const CLEAR_ALL = '[Trading] Clear All';
+export const AMEND_BUY_TRADE = '[Trading] Amend Buy Trade';
+export const EDIT_TRADE = '[Trading] Edit Trade';
+export const EDIT_TRADE_SUCCESS = '[Trading] Edit Trade Success';
+export const DELETE_TRADE = '[Trading] Delete Trade';
+export const DELETE_TRADE_SUCCESS = '[Trading] Delete Trade Success';
 
 export class StoreTrading implements Action {
   readonly type = STORE_TRADING;
@@ -60,6 +65,31 @@ export class ClearAll implements Action {
   readonly type = CLEAR_ALL;
 }
 
+export class AmendBuyTrade implements Action {
+  readonly type = AMEND_BUY_TRADE;
+  constructor(public payload: Trading) {}
+}
+
+export class EditTrade implements Action {
+  readonly type = EDIT_TRADE;
+  constructor(public payload: { key: string; trading: Trading }) {}
+}
+
+export class EditTradeSuccess implements Action {
+  readonly type = EDIT_TRADE_SUCCESS;
+  constructor(public payload: { key: string; trading: Trading }) {}
+}
+
+export class DeleteTrade implements Action {
+  readonly type = DELETE_TRADE;
+  constructor(public payload: { key: string; symbol: string }) {}
+}
+
+export class DeleteTradeSuccess implements Action {
+  readonly type = DELETE_TRADE_SUCCESS;
+  constructor(public payload: string) {}
+}
+
 export type TradingActions =
   | StoreTrading
   | StoreTradingSuccess
@@ -68,4 +98,6 @@ export type TradingActions =
   | FetchLatestPricesSuccess
   | FetchCoinListSuccess
   | FetchExchangeListSuccess
-  | ClearAll;
+  | ClearAll
+  | EditTradeSuccess
+  | DeleteTradeSuccess;
