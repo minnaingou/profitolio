@@ -1,9 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { map, Subscription, take } from 'rxjs';
+import { map, Subscription } from 'rxjs';
+import { SortingCriteriaModel } from 'src/app/header/toolbar/sorting-menu/sorting-menu.component';
 import { Holding } from 'src/app/shared/holding.model';
 import { LatestPrice } from 'src/app/shared/latestPrice.model';
 import { Trading } from 'src/app/shared/trading.model';
+import { UiService } from 'src/app/shared/ui.service';
 import * as fromApp from '../../store/app.reducer';
 import * as TradingActions from '../../tradings/store/trading.actions';
 
@@ -15,12 +17,16 @@ import * as TradingActions from '../../tradings/store/trading.actions';
 export class HoldingListComponent implements OnInit, OnDestroy {
   holdingItems: Holding[] = [];
 
-  tradeingStoreSubscription: Subscription;
+  tradingStoreSubscription: Subscription;
+  holdingSortedSubscription: Subscription;
 
-  constructor(private store: Store<fromApp.AppState>) {}
+  constructor(
+    private uiService: UiService,
+    private store: Store<fromApp.AppState>
+  ) {}
 
   ngOnInit(): void {
-    this.tradeingStoreSubscription = this.store
+    this.tradingStoreSubscription = this.store
       .select('trading')
       .pipe(
         map((state) =>
@@ -30,13 +36,32 @@ export class HoldingListComponent implements OnInit, OnDestroy {
       .subscribe((holdings) => {
         this.holdingItems = holdings;
       });
+
+    this.holdingSortedSubscription = this.uiService.holdingSorted.subscribe(
+      (criteria: SortingCriteriaModel) => {
+        this.holdingItems.sort((a, b) => this.sortHoldings(criteria, a, b));
+      }
+    );
   }
 
   ngOnDestroy(): void {
-    this.tradeingStoreSubscription.unsubscribe();
+    this.tradingStoreSubscription.unsubscribe();
+    this.holdingSortedSubscription.unsubscribe();
   }
 
-  populateHoldings(
+  private sortHoldings(criteria: SortingCriteriaModel, a: any, b: any) {
+    if (criteria.order === 'asc') {
+      return criteria.isNumber
+        ? a[criteria.orderBy] - b[criteria.orderBy]
+        : a[criteria.orderBy].localeCompare(b[criteria.orderBy]);
+    } else {
+      return criteria.isNumber
+        ? b[criteria.orderBy] - a[criteria.orderBy]
+        : b[criteria.orderBy].localeCompare(a[criteria.orderBy]);
+    }
+  }
+
+  private populateHoldings(
     tradings: Trading[],
     latestPrices: LatestPrice[]
   ): Holding[] {

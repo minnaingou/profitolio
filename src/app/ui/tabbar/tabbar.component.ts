@@ -1,15 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { MatTabChangeEvent } from '@angular/material/tabs';
 
 @Component({
   selector: 'app-tabbar',
   templateUrl: './tabbar.component.html',
-  styleUrls: ['./tabbar.component.css']
+  styleUrls: ['./tabbar.component.css'],
 })
 export class TabbarComponent implements OnInit {
+  @Input() activeIndex: number = 0;
+  @Output() tabChanged = new EventEmitter<number>();
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit(): void {
+  ngOnInit(): void {}
+
+  onTabChange(activeIndex: number) {
+    this.tabChanged.emit(activeIndex);
   }
-
 }

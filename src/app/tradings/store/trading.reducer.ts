@@ -1,5 +1,6 @@
 import { LatestPrice } from 'src/app/shared/latestPrice.model';
 import { Trading } from 'src/app/shared/trading.model';
+import { FilteringCriteria } from '../trading-list/filtering-sheet/filtering-criteria.model';
 import * as TradingActions from './trading.actions';
 
 export interface State {
@@ -7,6 +8,7 @@ export interface State {
   latestPrices: LatestPrice[];
   coinList: string[];
   exchangeList: string[];
+  filteringCriteria: FilteringCriteria;
 }
 
 const initialState: State = {
@@ -14,6 +16,16 @@ const initialState: State = {
   latestPrices: [],
   coinList: [],
   exchangeList: [],
+  filteringCriteria: {
+    holdingsOnly: false,
+    types: [],
+    symbols: [],
+    exchanges: [],
+    fromDate: null,
+    toDate: null,
+    minAmount: null,
+    maxAmount: null,
+  },
 };
 
 export function tradingReducer(
@@ -68,6 +80,16 @@ export function tradingReducer(
         tradings: state.tradings.filter(
           (trading) => trading.key !== action.payload
         ),
+      };
+    case TradingActions.FILTER_TRADES:
+      return {
+        ...state,
+        filteringCriteria: { ...action.payload },
+      };
+    case TradingActions.FILTER_TRADES_CLEARED:
+      return {
+        ...state,
+        filteringCriteria: { ...initialState.filteringCriteria },
       };
     default:
       return state;

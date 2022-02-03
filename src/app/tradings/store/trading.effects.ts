@@ -205,4 +205,31 @@ export class TradingEffects {
       })
     );
   });
+
+  filterTrades = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(TradingActions.FILTER_TRADES),
+        map(
+          (filterTrades: TradingActions.FilterTrades) => filterTrades.payload
+        ),
+        map((payload) => {
+          this.uiService.tradeListFiltered.next(payload);
+        })
+      );
+    },
+    { dispatch: false }
+  );
+
+  filterTradesCleared = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(TradingActions.FILTER_TRADES_CLEARED),
+        map(() => {
+          this.uiService.tradeListFilterCleared.next();
+        })
+      );
+    },
+    { dispatch: false }
+  );
 }

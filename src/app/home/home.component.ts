@@ -1,8 +1,14 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
-import { PAGE_HOME, TOOLBAR_REFRESH } from '../shared/ui-constants';
+import { Location } from '@angular/common';
+import {
+  PAGE_HOLDINGS,
+  PAGE_TRADINGS,
+  TOOLBAR_REFRESH,
+} from '../shared/ui-constants';
 import { UiService } from '../shared/ui.service';
 import * as fromApp from '../store/app.reducer';
 import * as TradingActions from '../tradings/store/trading.actions';
@@ -15,15 +21,26 @@ export class HomeComponent implements OnInit, OnDestroy {
   tradingStoreSubscription: Subscription;
   snackbarSubscription: Subscription;
   toolbarActionSubscription: Subscription;
+  activeTabIndex: number;
 
   constructor(
     private uiService: UiService,
     private store: Store<fromApp.AppState>,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private route: ActivatedRoute,
+    private location: Location
   ) {}
 
   ngOnInit(): void {
-    this.uiService.pageChanged.next(PAGE_HOME);
+    // removing frgment passed to set the active tab index
+    const pathWithoutHash = this.location.path(false);
+    this.location.replaceState(pathWithoutHash);
+
+    this.uiService.pageChanged.next(PAGE_HOLDINGS);
+    const fragment = this.route.snapshot.fragment;
+    if (fragment && fragment === 'tradings') {
+      this.activeTabIndex = 1;
+    }
     this.snackbarSubscription = this.uiService.displaySnackbar.subscribe(
       (payload: { error: boolean; message: string }) => {
         this._snackBar.open(payload.message, 'OK', { duration: 2 * 1000 });
@@ -42,5 +59,16 @@ export class HomeComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.snackbarSubscription.unsubscribe();
     this.toolbarActionSubscription.unsubscribe();
+  }
+
+  onTabChange(tabIndex: number) {
+    switch (tabIndex) {
+      case 0:
+        this.uiService.pageChanged.next(PAGE_HOLDINGS);
+        break;
+      case 1:
+        this.uiService.pageChanged.next(PAGE_TRADINGS);
+        break;
+    }
   }
 }

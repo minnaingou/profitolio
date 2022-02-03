@@ -1,0 +1,116 @@
+<div class="column">
+  <ul>
+    <li class="title">Filter By</li>
+    <li><a class="link" (click)="onReset()">Reset</a></li>
+  </ul>
+  <form [formGroup]="filterForm" (ngSubmit)="onFilter()">
+    <div class="filter-item" class="row">
+      <span class="filter-caption">Show only holdings</span>
+      <span class="spacer"></span>
+      <mat-slide-toggle
+        color="primary"
+        formControlName="holdingsOnly"
+      ></mat-slide-toggle>
+    </div>
+    <mat-divider class="divider"></mat-divider>
+    <div class="filter-item">
+      <p class="filter-caption">Type</p>
+      <div class="checkbox-container" formGroupName="types">
+        <label
+          ><input type="checkbox" id="buy" formControlName="buy" /><span
+            >Buy</span
+          ></label
+        >
+        <label
+          ><input type="checkbox" id="sell" formControlName="sell" /><span
+            >Sell</span
+          ></label
+        >
+      </div>
+    </div>
+    <div class="filter-item">
+      <p class="filter-caption">Symbol</p>
+      <div formArrayName="symbols" class="checkbox-container">
+        <div *ngFor="let symbol of symbolControls; let i = index">
+          <div formGroupName="{{ i }}">
+            <label>
+              <input
+                type="checkbox"
+                [formControl]="getSelectedFormControl(symbol)"
+              />
+              <span>{{ symbol.get("name").value | uppercase }}</span>
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="filter-item">
+      <p class="filter-caption">Exchange</p>
+      <div formArrayName="exchanges" class="checkbox-container">
+        <div *ngFor="let exchange of exchangeControls; let i = index">
+          <div formGroupName="{{ i }}">
+            <label>
+              <input
+                type="checkbox"
+                [formControl]="getSelectedFormControl(exchange)"
+              />
+              <span>{{ exchange.get("name").value }}</span>
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <mat-divider class="divider"></mat-divider>
+    <div>
+      <p class="filter-caption">Date</p>
+      <mat-form-field appearance="fill" class="filter-form-full-wrapper">
+        <mat-label>Enter a date range</mat-label>
+        <mat-date-range-input [rangePicker]="picker" (click)="picker.open()">
+          <input
+            matStartDate
+            placeholder="From date"
+            formControlName="fromDate"
+          />
+          <input matEndDate placeholder="To date" formControlName="toDate" />
+        </mat-date-range-input>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-date-range-picker touchUi #picker></mat-date-range-picker>
+      </mat-form-field>
+    </div>
+    <div>
+      <p class="filter-caption">Amount</p>
+      <div class="row" style="justify-content: space-between; flex-wrap: wrap">
+        <mat-form-field appearance="fill" class="filter-form-half-wrapper">
+          <mat-label>Min.</mat-label>
+          <input type="number" matInput #minAmt formControlName="minAmount" />
+          <button
+            matSuffix
+            mat-icon-button
+            aria-label="Clear"
+            *ngIf="minAmt.value"
+            (click)="filterForm.get('minAmount').setValue('')"
+          >
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
+        <span style="padding-top: 15px">-</span>
+        <mat-form-field appearance="fill" class="filter-form-half-wrapper">
+          <mat-label>Max.</mat-label>
+          <input type="number" matInput #maxAmt formControlName="maxAmount" />
+          <button
+            matSuffix
+            mat-icon-button
+            aria-label="Clear"
+            *ngIf="maxAmt.value"
+            (click)="filterForm.get('maxAmount').setValue('')"
+          >
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+    </div>
+    <button mat-raised-button color="primary" class="apply-button">
+      Apply Filters
+    </button>
+  </form>
+</div>

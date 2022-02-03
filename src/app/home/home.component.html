@@ -1,1 +1,4 @@
-<app-tabbar></app-tabbar>
+<app-tabbar
+  [activeIndex]="activeTabIndex"
+  (tabChanged)="onTabChange($event)"
+></app-tabbar>

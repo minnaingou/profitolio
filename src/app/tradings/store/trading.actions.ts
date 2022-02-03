@@ -1,5 +1,6 @@
 import { Action } from '@ngrx/store';
 import { Trading } from 'src/app/shared/trading.model';
+import { FilteringCriteria } from '../trading-list/filtering-sheet/filtering-criteria.model';
 
 export const STORE_TRADING = '[Trading] Store Trading';
 export const STORE_TRADING_SUCCESS = '[Trading] Store Trading Success';
@@ -18,6 +19,8 @@ export const EDIT_TRADE = '[Trading] Edit Trade';
 export const EDIT_TRADE_SUCCESS = '[Trading] Edit Trade Success';
 export const DELETE_TRADE = '[Trading] Delete Trade';
 export const DELETE_TRADE_SUCCESS = '[Trading] Delete Trade Success';
+export const FILTER_TRADES = '[Trading] Filter Trades';
+export const FILTER_TRADES_CLEARED = '[Trading] Filter Trades Cleared';
 
 export class StoreTrading implements Action {
   readonly type = STORE_TRADING;
@@ -90,6 +93,15 @@ export class DeleteTradeSuccess implements Action {
   constructor(public payload: string) {}
 }
 
+export class FilterTrades implements Action {
+  readonly type = FILTER_TRADES;
+  constructor(public payload: FilteringCriteria) {}
+}
+
+export class FilterTradesCleared implements Action {
+  readonly type = FILTER_TRADES_CLEARED;
+}
+
 export type TradingActions =
   | StoreTrading
   | StoreTradingSuccess
@@ -100,4 +112,6 @@ export type TradingActions =
   | FetchExchangeListSuccess
   | ClearAll
   | EditTradeSuccess
-  | DeleteTradeSuccess;
+  | DeleteTradeSuccess
+  | FilterTrades
+  | FilterTradesCleared;

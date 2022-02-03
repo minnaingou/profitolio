@@ -3,24 +3,24 @@ import {
   FormBuilder,
   FormControl,
   FormGroup,
-  Validators,
+  Validators
 } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import Decimal from 'decimal.js';
-import { Subscription, take } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { Trading } from 'src/app/shared/trading.model';
 import {
   PAGE_ADD,
   PAGE_EDIT,
   TOOLBAR_DELETE,
-  TOOLBAR_ENTRY_DONE,
+  TOOLBAR_ENTRY_DONE
 } from 'src/app/shared/ui-constants';
 import { UiService } from 'src/app/shared/ui.service';
 import {
   ConfirmDialogComponent,
-  ConfirmDialogModel,
+  ConfirmDialogModel
 } from 'src/app/ui/confirm-dialog/confirm-dialog.component';
 import { DialogComponent } from 'src/app/ui/dialog/dialog.component';
 import * as fromApp from '../../store/app.reducer';
@@ -108,7 +108,7 @@ export class TradeEntryComponent implements OnInit, OnDestroy {
     });
   }
 
-  populateFormForEdit(tradings: Trading[]) {
+  private populateFormForEdit(tradings: Trading[]) {
     const symbol = this.route.snapshot.params['symbol'];
     const key = this.route.snapshot.params['key'];
     this.editingKey = key;
@@ -120,7 +120,7 @@ export class TradeEntryComponent implements OnInit, OnDestroy {
         data: {
           content: 'No record found.',
           onCloseHandler: () => {
-            this.router.navigate(['/']);
+            this.router.navigate(['/'], { fragment: 'tradings' });
           },
         },
       });
@@ -183,7 +183,7 @@ export class TradeEntryComponent implements OnInit, OnDestroy {
         this.tradingService.createNewTrading(trading);
       }
 
-      this.router.navigate(['/']); // TODO go to trade list
+      this.router.navigate(['/'], { fragment: 'tradings' });
     }
   }
 
@@ -203,7 +203,7 @@ export class TradeEntryComponent implements OnInit, OnDestroy {
       });
       dialogRef.afterClosed().subscribe((dialogResult) => {
         if (dialogResult) {
-          this.router.navigate(['/']);
+          this.router.navigate(['/'], { fragment: 'tradings' });
           this.store.dispatch(
             new TradingActions.DeleteTrade({
               key: this.editingKey,

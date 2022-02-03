@@ -31,7 +31,7 @@
           <span class="sub-caption">{{ item.symbol | uppercase }}</span></span
         >
       </div>
-      <div class="focus" *ngIf="isBuy">
+      <div *ngIf="isBuy">
         {{ item.amount }}
         <span class="sub-caption">HODL </span> /
         {{ item.startingAmount }}
@@ -40,18 +40,18 @@
     <div class="caption" style="flex: 1">x</div>
     <div style="flex: 2">
       <span class="caption">Price: </span>
-      <span class="focus">${{ item.price }}</span>
+      <span>${{ item.price }}</span>
     </div>
     <div class="caption" style="flex: 1">=</div>
     <div style="text-align: right; flex: 2">
       <span class="caption">Total: </span>
-      <span class="focus">${{ item.amount * item.price | number }}</span>
+      <span>${{ item.amount * item.price | number }}</span>
     </div>
   </div>
   <div class="footer-info" *ngIf="isSell">
     <span class="caption">Realised P&L: </span> &nbsp;
     <span
-      class="focus chip"
+      class="chip"
       [ngClass]="{
         'green-chip': item.sellingInfo.realisedPL > 0,
         'red-chip': item.sellingInfo.realisedPL < 0

@@ -1,7 +1,13 @@
 <p class="app-toolbar">
   <mat-toolbar color="primary">
     <div style="display: flex; align-items: center">
-      <button mat-icon-button *ngIf="currentpage == 'PAGE_HOME'; else showBack">
+      <button
+        mat-icon-button
+        *ngIf="
+          currentpage == 'PAGE_HOLDINGS' || currentpage == 'PAGE_TRADINGS';
+          else showBack
+        "
+      >
         <mat-icon>menu</mat-icon>
       </button>
       <ng-template #showBack>
@@ -9,7 +15,6 @@
           <mat-icon>arrow_back</mat-icon>
         </button>
       </ng-template>
-      <!-- <span><a routerLink="/" class="link mat-primary">Profitolio</a></span> -->
       <span
         ><img
           src="/assets/harlow.png"
@@ -17,10 +22,33 @@
       /></span>
     </div>
     <span class="spacer"></span>
-    <div *ngIf="currentpage == 'PAGE_HOME'">
+    <div *ngIf="currentpage == 'PAGE_HOLDINGS'">
       <button mat-icon-button (click)="onToolbarAction('REFRESH')">
         <mat-icon>refresh</mat-icon>
       </button>
+      <app-sorting-menu (sorted)="onHoldingSort($event)"></app-sorting-menu>
+      <button mat-icon-button (click)="onToolbarAction('ADD')">
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+    <div *ngIf="currentpage == 'PAGE_TRADINGS'">
+      <button mat-icon-button (click)="onToolbarAction('REFRESH')">
+        <mat-icon>refresh</mat-icon>
+      </button>
+      <button mat-icon-button (click)="onToolbarAction('FILTER')">
+        <mat-icon
+          *ngIf="filterActive; else noFilter"
+          matBadge="&#8288;"
+          matBadgeColor="warn"
+          matBadgeSize="small"
+          matBadgePosition="below after"
+          >filter_list</mat-icon
+        >
+        <ng-template #noFilter><mat-icon>filter_list</mat-icon></ng-template>
+      </button>
+      <!-- <button mat-icon-button (click)="onToolbarAction('MERGE')">
+        <mat-icon>merge</mat-icon>
+      </button> -->
       <button mat-icon-button (click)="onToolbarAction('ADD')">
         <mat-icon>add</mat-icon>
       </button>

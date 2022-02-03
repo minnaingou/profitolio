@@ -1,9 +1,19 @@
 <div>
-  <mat-tab-group animationDuration="500ms" backgroundColor="primary">
+  <mat-tab-group
+    [selectedIndex]="activeIndex"
+    (selectedIndexChange)="onTabChange($event)"
+    animationDuration="500ms"
+    backgroundColor="primary"
+  >
     <mat-tab label="Holdings"> <app-holding-list></app-holding-list> </mat-tab>
     <mat-tab label="Tradings">
       <ng-template matTabContent>
         <app-trading-list></app-trading-list>
+      </ng-template>
+    </mat-tab>
+    <mat-tab label="Overview">
+      <ng-template matTabContent>
+        <app-overview></app-overview>
       </ng-template>
     </mat-tab>
   </mat-tab-group>

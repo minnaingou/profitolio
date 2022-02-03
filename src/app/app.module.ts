@@ -18,6 +18,10 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatListModule } from '@angular/material/list';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatBadgeModule } from '@angular/material/badge';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -38,6 +42,9 @@ import { TradingEffects } from './tradings/store/trading.effects';
 import { HttpClientModule } from '@angular/common/http';
 import { SellingTradeDialogComponent } from './tradings/trade-entry/selling-trade-dialog/selling-trade-dialog.component';
 import { ConfirmDialogComponent } from './ui/confirm-dialog/confirm-dialog.component';
+import { SortingMenuComponent } from './header/toolbar/sorting-menu/sorting-menu.component';
+import { FilteringSheetComponent } from './tradings/trading-list/filtering-sheet/filtering-sheet.component';
+import { OverviewComponent } from './overview/overview.component';
 
 @NgModule({
   declarations: [
@@ -54,6 +61,9 @@ import { ConfirmDialogComponent } from './ui/confirm-dialog/confirm-dialog.compo
     DialogComponent,
     SellingTradeDialogComponent,
     ConfirmDialogComponent,
+    SortingMenuComponent,
+    FilteringSheetComponent,
+    OverviewComponent,
   ],
   imports: [
     BrowserModule,
@@ -78,6 +88,10 @@ import { ConfirmDialogComponent } from './ui/confirm-dialog/confirm-dialog.compo
     MatSnackBarModule,
     MatDialogModule,
     MatListModule,
+    MatMenuModule,
+    MatBottomSheetModule,
+    MatSlideToggleModule,
+    MatBadgeModule,
   ],
   providers: [{ provide: MAT_DATE_LOCALE, useValue: 'en-GB' }],
   bootstrap: [AppComponent],

@@ -1,0 +1,74 @@
+<button mat-icon-button [matMenuTriggerFor]="sortingMenu">
+  <mat-icon>sort_by_alpha</mat-icon>
+</button>
+<mat-menu #sortingMenu="matMenu">
+  <button mat-menu-item (click)="onSort('symbol', 'asc', false)">
+    <span>Name (A -> Z)</span>
+  </button>
+  <button mat-menu-item [matMenuTriggerFor]="totalCostMenu">
+    <span>Total Cost</span>
+  </button>
+  <button mat-menu-item [matMenuTriggerFor]="totalMarketValueMenu">
+    <span>Total Market Value</span>
+  </button>
+  <button mat-menu-item [matMenuTriggerFor]="realisedMenu">
+    <span>Realised P&L</span>
+  </button>
+  <button mat-menu-item [matMenuTriggerFor]="unrealisedMenu">
+    <span>Unrealised P&L</span>
+  </button>
+  <button mat-menu-item [matMenuTriggerFor]="unrealisedPercentMenu">
+    <span>Unrealised P&L %</span>
+  </button>
+  <button mat-menu-item [matMenuTriggerFor]="totalGainMenu">
+    <span>Total Gain</span>
+  </button>
+</mat-menu>
+<mat-menu #totalCostMenu>
+  <button mat-menu-item (click)="onSort('totalCost', 'desc', true)">
+    <span>{{ HIGH_TO_LOW }}</span>
+  </button>
+  <button mat-menu-item (click)="onSort('totalCost', 'asc', true)">
+    <span>{{ LOW_TO_HIGH }}</span>
+  </button>
+</mat-menu>
+<mat-menu #totalMarketValueMenu>
+  <button mat-menu-item (click)="onSort('totalWorth', 'desc', true)">
+    <span>{{ HIGH_TO_LOW }}</span>
+  </button>
+  <button mat-menu-item (click)="onSort('totalWorth', 'asc', true)">
+    <span>{{ LOW_TO_HIGH }}</span>
+  </button>
+</mat-menu>
+<mat-menu #realisedMenu>
+  <button mat-menu-item (click)="onSort('realisedPL', 'desc', true)">
+    <span>{{ HIGH_TO_LOW }}</span>
+  </button>
+  <button mat-menu-item (click)="onSort('realisedPL', 'asc', true)">
+    <span>{{ LOW_TO_HIGH }}</span>
+  </button>
+</mat-menu>
+<mat-menu #unrealisedMenu>
+  <button mat-menu-item (click)="onSort('unrealisedPL', 'desc', true)">
+    <span>{{ HIGH_TO_LOW }}</span>
+  </button>
+  <button mat-menu-item (click)="onSort('unrealisedPL', 'asc', true)">
+    <span>{{ LOW_TO_HIGH }}</span>
+  </button>
+</mat-menu>
+<mat-menu #unrealisedPercentMenu>
+  <button mat-menu-item (click)="onSort('perUnrealisedPL', 'desc', true)">
+    <span>{{ HIGH_TO_LOW }}</span>
+  </button>
+  <button mat-menu-item (click)="onSort('perUnrealisedPL', 'asc', true)">
+    <span>{{ LOW_TO_HIGH }}</span>
+  </button>
+</mat-menu>
+<mat-menu #totalGainMenu>
+  <button mat-menu-item (click)="onSort('totalGain', 'desc', true)">
+    <span>{{ HIGH_TO_LOW }}</span>
+  </button>
+  <button mat-menu-item (click)="onSort('totalGain', 'asc', true)">
+    <span>{{ LOW_TO_HIGH }}</span>
+  </button>
+</mat-menu>

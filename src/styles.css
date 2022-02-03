@@ -15,7 +15,11 @@ body {
 }
 
 .mat-snack-bar-handset {
-  max-width: 50%;
+  max-width: 60%;
+}
+
+.mat-bottom-sheet-container {
+  padding: 0 16px 8px 16px !important;
 }
 
 .chip {
@@ -58,5 +62,5 @@ body {
 .link {
   text-decoration: none;
   cursor: pointer;
-  color: inherit;
+  color: steelblue;
 }
