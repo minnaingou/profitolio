@@ -7,7 +7,7 @@ export interface State {
   tradings: Trading[];
   latestPrices: LatestPrice[];
   coinList: string[];
-  exchangeList: string[];
+  //exchangeList: string[];
   filteringCriteria: FilteringCriteria;
 }
 
@@ -15,7 +15,7 @@ const initialState: State = {
   tradings: [],
   latestPrices: [],
   coinList: [],
-  exchangeList: [],
+  //exchangeList: [],
   filteringCriteria: {
     holdingsOnly: false,
     types: [],
@@ -63,11 +63,11 @@ export function tradingReducer(
         ...state,
         coinList: action.payload,
       };
-    case TradingActions.FETCH_EXCHANGE_LIST_SUCCESS:
-      return {
-        ...state,
-        exchangeList: action.payload,
-      };
+    // case TradingActions.FETCH_EXCHANGE_LIST_SUCCESS:
+    //   return {
+    //     ...state,
+    //     exchangeList: action.payload,
+    //   };
     case TradingActions.CLEAR_ALL:
       return {
         ...state,

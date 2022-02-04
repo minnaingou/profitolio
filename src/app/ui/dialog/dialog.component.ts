@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-dialog',
@@ -10,7 +10,10 @@ export class DialogComponent implements OnInit {
   content: string;
   closeLabel: string = 'Close';
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any) {}
+  constructor(
+    private dialogRef: MatDialogRef<DialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any
+  ) {}
 
   ngOnInit(): void {
     if (this.data.title) this.title = this.data.title;
@@ -19,6 +22,7 @@ export class DialogComponent implements OnInit {
   }
 
   onClose() {
+    this.dialogRef.close();
     this.data.onCloseHandler && this.data.onCloseHandler();
   }
 }

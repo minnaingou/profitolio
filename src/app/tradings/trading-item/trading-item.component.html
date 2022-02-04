@@ -11,7 +11,8 @@
     </span>
     <span class="caption" *ngIf="item.exchange">{{ item.exchange }}</span>
     <span *ngIf="item.merged" class="caption center">
-      <mat-icon color="primary" class="merged-icon">merge</mat-icon> Merged
+      <mat-icon color="primary" class="merged-icon">merge</mat-icon>
+      <span *ngIf="!item.exchange">Merged</span>
     </span>
   </div>
   <span class="row">

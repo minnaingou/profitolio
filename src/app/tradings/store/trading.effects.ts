@@ -75,11 +75,11 @@ export class TradingEffects {
                   return new TradingActions.FetchLatestPrices();
                 })
               ),
-              this.tradingService.saveExchangeInfo(payload.exchange).pipe(
-                map(() => {
-                  return { type: 'DUMMY' };
-                })
-              )
+              // this.tradingService.saveExchangeInfo(payload.exchange).pipe(
+              //   map(() => {
+              //     return { type: 'DUMMY' };
+              //   })
+              // )
             );
           })
         );
@@ -133,11 +133,11 @@ export class TradingEffects {
               return new TradingActions.FetchCoinListSuccess(coinList);
             })
           ),
-          this.tradingService.getExistingExchanges().pipe(
-            map((exchangeList) => {
-              return new TradingActions.FetchExchangeListSuccess(exchangeList);
-            })
-          )
+          // this.tradingService.getExistingExchanges().pipe(
+          //   map((exchangeList) => {
+          //     return new TradingActions.FetchExchangeListSuccess(exchangeList);
+          //   })
+          // )
         );
       })
     );

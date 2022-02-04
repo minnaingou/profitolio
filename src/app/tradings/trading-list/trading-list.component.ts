@@ -137,7 +137,7 @@ export class TradingListComponent implements OnInit, OnDestroy {
     const exchangeList = new Set();
     this.tradingList.forEach((trading) => {
       symbolList.add(trading.symbol);
-      exchangeList.add(trading.exchange);
+      trading.exchange && exchangeList.add(trading.exchange);
     });
     this._bottomSheet.open(FilteringSheetComponent, {
       data: { symbolList, exchangeList },

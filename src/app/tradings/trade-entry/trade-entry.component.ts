@@ -97,8 +97,12 @@ export class TradeEntryComponent implements OnInit, OnDestroy {
     this.tradingStoreSubscription = this.store
       .select('trading')
       .subscribe((state) => {
-        this.symbolList = state.coinList.map((coin) => coin.toUpperCase());
-        this.exchangeList = state.exchangeList.map((exchange) => exchange);
+        // this.symbolList = state.coinList.map((coin) => coin.toUpperCase());
+        //this.exchangeList = state.exchangeList.map((exchange) => exchange);
+        const autocompleteData = this.prepareAutocompleteData(state.tradings);
+        this.exchangeList = autocompleteData.exchangeList;
+        this.symbolList = autocompleteData.symbolList;
+
         if (this.editMode) {
           this.populateFormForEdit(state.tradings);
         }
@@ -106,6 +110,36 @@ export class TradeEntryComponent implements OnInit, OnDestroy {
     this.entryForm.valueChanges.subscribe(() => {
       if (this.sellingTrade) this.sellingTrade = null;
     });
+  }
+
+  private prepareAutocompleteData(tradings: Trading[]) {
+    return tradings.reduce<AutocompleteData>((autocompleteData, trading) => {
+      if (
+        !autocompleteData.exchangeList ||
+        autocompleteData.exchangeList.length === 0
+      ) {
+        autocompleteData.exchangeList = [];
+      }
+      if (
+        !autocompleteData.symbolList ||
+        autocompleteData.symbolList.length === 0
+      ) {
+        autocompleteData.symbolList = [];
+      }
+      if (
+        !autocompleteData.exchangeList.includes(trading.exchange) &&
+        trading.exchange
+      ) {
+        autocompleteData.exchangeList.push(trading.exchange);
+      }
+      if (
+        !autocompleteData.symbolList.includes(trading.symbol) &&
+        trading.symbol
+      ) {
+        autocompleteData.symbolList.push(trading.symbol);
+      }
+      return autocompleteData;
+    }, <AutocompleteData>{});
   }
 
   private populateFormForEdit(tradings: Trading[]) {
@@ -238,4 +272,9 @@ export class TradeEntryComponent implements OnInit, OnDestroy {
       this.sellingTradeNotSelected = false;
     });
   }
+}
+
+interface AutocompleteData {
+  symbolList: string[];
+  exchangeList: string[];
 }

@@ -102,7 +102,7 @@ export class MergeListComponent implements OnInit, OnDestroy {
         symbol: this.selectedSymbol,
         amount: totalAmount,
         startingAmount: totalAmount,
-        price: +Decimal.div(totalCost, totalAmount).toPrecision(3),
+        price: +Decimal.div(totalCost, totalAmount).toPrecision(4),
         date: new Date(),
         updatedDate: new Date(),
         type: 'buy',
@@ -149,7 +149,7 @@ export class MergeListComponent implements OnInit, OnDestroy {
           merged: true,
           amount: finalAmount,
           startingAmount: finalAmount,
-          price: +Decimal.div(totalCost, finalAmount).toPrecision(3),
+          price: +Decimal.div(totalCost, finalAmount).toPrecision(4),
         };
         this.store.dispatch(new TradingActions.StoreTrading(mergedTrade));
         this.store.dispatch(

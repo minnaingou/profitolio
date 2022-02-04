@@ -61,7 +61,7 @@
     </button>
     <mat-autocomplete #symbol="matAutocomplete">
       <mat-option *ngFor="let symbol of symbolList" [value]="symbol">
-        {{ symbol }}
+        {{ symbol | uppercase }}
       </mat-option>
     </mat-autocomplete>
   </mat-form-field>
