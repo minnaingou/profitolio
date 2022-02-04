@@ -17,10 +17,10 @@ import { FilteringSheetComponent } from './filtering-sheet/filtering-sheet.compo
 })
 export class TradingListComponent implements OnInit, OnDestroy {
   tradingList: Trading[] = [];
+  filteredTradingList: Trading[] = [];
 
   tradingStoreSubscription: Subscription;
   toolbarActionSubscription: Subscription;
-  filteredSubscription: Subscription;
 
   constructor(
     private uiService: UiService,
@@ -34,7 +34,11 @@ export class TradingListComponent implements OnInit, OnDestroy {
       .select('trading')
       .subscribe((state) => {
         if (state.tradings) {
-          this.tradingList = [...state.tradings].sort(this.sortByDate);
+          this.tradingList = state.tradings;
+          this.filteredTradingList = this.filterByCriteria(
+            state.tradings,
+            state.filteringCriteria
+          ).sort(this.sortByDate);
         }
       });
 
@@ -44,18 +48,13 @@ export class TradingListComponent implements OnInit, OnDestroy {
           this.openFilterSheet();
         }
       });
-
-    this.filteredSubscription = this.uiService.tradeListFiltered.subscribe(
-      (criteria) => {
-        this.tradingList = this.filterByCriteria(criteria).sort(
-          this.sortByDate
-        );
-      }
-    );
   }
 
-  private filterByCriteria(criteria: FilteringCriteria) {
-    return this.tradingList
+  private filterByCriteria(
+    tradingList: Trading[],
+    criteria: FilteringCriteria
+  ) {
+    return tradingList
       .filter((trading) => {
         // filtering for 'show only holdings'
         return criteria.holdingsOnly ? trading.holding : true;
@@ -116,7 +115,7 @@ export class TradingListComponent implements OnInit, OnDestroy {
         } else if (!criteria.maxAmount) {
           return trading.amount >= minAmount;
         }
-        return false;
+        return true;
       });
   }
 
@@ -127,7 +126,6 @@ export class TradingListComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.tradingStoreSubscription.unsubscribe();
     this.toolbarActionSubscription.unsubscribe();
-    this.filteredSubscription.unsubscribe();
   }
 
   onEdit(data: { symbol: string; key: string }) {
@@ -135,6 +133,14 @@ export class TradingListComponent implements OnInit, OnDestroy {
   }
 
   openFilterSheet(): void {
-    this._bottomSheet.open(FilteringSheetComponent);
+    const symbolList = new Set();
+    const exchangeList = new Set();
+    this.tradingList.forEach((trading) => {
+      symbolList.add(trading.symbol);
+      exchangeList.add(trading.exchange);
+    });
+    this._bottomSheet.open(FilteringSheetComponent, {
+      data: { symbolList, exchangeList },
+    });
   }
 }

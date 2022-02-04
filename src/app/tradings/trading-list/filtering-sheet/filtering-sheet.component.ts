@@ -1,20 +1,20 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import {
   AbstractControl,
   FormArray,
   FormBuilder,
   FormControl,
-  FormGroup
+  FormGroup,
 } from '@angular/forms';
-import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
+import {
+  MatBottomSheetRef,
+  MAT_BOTTOM_SHEET_DATA,
+} from '@angular/material/bottom-sheet';
 import { Store } from '@ngrx/store';
 import { map, Subscription } from 'rxjs';
 import * as fromApp from '../../../store/app.reducer';
 import * as TradingActions from '../../store/trading.actions';
-import {
-  CheckboxModel,
-  FilteringCriteria
-} from './filtering-criteria.model';
+import { CheckboxModel, FilteringCriteria } from './filtering-criteria.model';
 
 @Component({
   selector: 'app-filtering-sheet',
@@ -22,19 +22,6 @@ import {
   styleUrls: ['./filtering-sheet.component.css'],
 })
 export class FilteringSheetComponent implements OnInit {
-  @Input() symbolList: string[] = [
-    'eth',
-    'btc',
-    'ltc',
-    'ada',
-    'xrp',
-    'bnb',
-    'xlm',
-    'okb',
-    'etc',
-  ];
-  @Input() exchangeList: string[] = ['Binance', 'OKEx'];
-
   filterForm: FormGroup;
   holdingsOnlyControl = new FormControl(false);
 
@@ -55,7 +42,9 @@ export class FilteringSheetComponent implements OnInit {
   constructor(
     private _bottomSheetRef: MatBottomSheetRef<FilteringSheetComponent>,
     private store: Store<fromApp.AppState>,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    @Inject(MAT_BOTTOM_SHEET_DATA)
+    private data: { symbolList: string[]; exchangeList: string[] }
   ) {}
 
   ngOnInit(): void {
@@ -69,11 +58,11 @@ export class FilteringSheetComponent implements OnInit {
 
   private initForm(newCriteria: FilteringCriteria) {
     let symbolControls = this.createFormArray(
-      this.symbolList,
+      this.data.symbolList,
       newCriteria.symbols
     );
     let exchangeControls = this.createFormArray(
-      this.exchangeList,
+      this.data.exchangeList,
       newCriteria.exchanges
     );
 
@@ -133,7 +122,9 @@ export class FilteringSheetComponent implements OnInit {
           .map((type) => ({ name: type, selected: true })),
         holdingsOnly: criteria.holdingsOnly,
         symbols: criteria['symbols'].filter((c: CheckboxModel) => c.selected),
-        exchanges: criteria['exchanges'].filter((c: CheckboxModel) => c.selected),
+        exchanges: criteria['exchanges'].filter(
+          (c: CheckboxModel) => c.selected
+        ),
         fromDate: criteria.fromDate,
         toDate: criteria.toDate,
         minAmount: criteria.minAmount,

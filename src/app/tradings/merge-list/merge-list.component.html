@@ -1,0 +1,50 @@
+<div class="column">
+  <mat-form-field appearance="fill" class="sticky-selector">
+    <mat-label>You are merging</mat-label>
+    <mat-select [(value)]="selectedSymbol" (selectionChange)="onSymbolChange()">
+      <mat-option *ngFor="let symbol of eligibleSymbols" value="{{ symbol }}">
+        {{ symbol | uppercase }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-selection-list
+    class="eligible-list"
+    #nominated
+    (selectionChange)="calculatePreview(nominated)"
+  >
+    <mat-list-option
+      color="primary"
+      *ngFor="let item of eligibleSymbolTradings"
+      [value]="item"
+    >
+      <div style="padding-right: 20px">
+        <app-trading-item [readonly]="true" [item]="item"></app-trading-item>
+      </div>
+      <mat-divider></mat-divider>
+    </mat-list-option>
+  </mat-selection-list>
+
+  <div class="summary-sheet">
+    <span class="caption chip preview-chip">Preview</span>
+    <div style="padding-left: 10px">
+      <div class="merge-preview">
+        <app-trading-item
+          [readonly]="true"
+          [item]="preview"
+          *ngIf="preview"
+        ></app-trading-item>
+      </div>
+      <div class="merge-button">
+        <button
+          mat-raised-button
+          color="primary"
+          [disabled]="!mergable"
+          (click)="onMerge(nominated.selectedOptions.selected)"
+        >
+          Merge
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

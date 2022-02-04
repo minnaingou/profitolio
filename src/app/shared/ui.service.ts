@@ -9,6 +9,6 @@ export class UiService {
   toolbarButtonClicked = new Subject<string>();
   holdingSorted = new Subject<SortingCriteriaModel>();
   displaySnackbar = new Subject<{ error: boolean; message: string }>();
-  tradeListFiltered = new Subject<FilteringCriteria>();
+  tradeListFiltered = new Subject<void>();
   tradeListFilterCleared = new Subject<void>();
 }

@@ -6,6 +6,7 @@ import {
   TOOLBAR_DELETE,
   TOOLBAR_ENTRY_DONE,
   TOOLBAR_FILTER,
+  TOOLBAR_MERGE_HELP,
   TOOLBAR_REFRESH,
 } from 'src/app/shared/ui-constants';
 import { UiService } from 'src/app/shared/ui.service';
@@ -67,6 +68,12 @@ export class ToolbarComponent implements OnInit, OnDestroy {
         break;
       case 'FILTER':
         this.uiService.toolbarButtonClicked.next(TOOLBAR_FILTER);
+        break;
+      case 'MERGE':
+        this.router.navigate(['/merge']);
+        break;
+      case 'MERGE_HELP':
+        this.uiService.toolbarButtonClicked.next(TOOLBAR_MERGE_HELP);
         break;
     }
   }

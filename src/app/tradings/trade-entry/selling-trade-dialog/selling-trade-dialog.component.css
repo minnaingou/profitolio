@@ -9,7 +9,7 @@
   font-size: small;
 }
 
-.mat-list-base .mat-list-item .mat-list-item-content {
+:host ::ng-deep .mat-list-base .mat-list-item .mat-list-item-content {
   padding: 0 !important;
 }
 

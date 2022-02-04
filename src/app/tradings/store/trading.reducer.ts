@@ -81,6 +81,13 @@ export function tradingReducer(
           (trading) => trading.key !== action.payload
         ),
       };
+    case TradingActions.DELETE_MULTIPLE_TRADES_SUCCESS:
+      return {
+        ...state,
+        tradings: state.tradings.filter(
+          (trading) => !action.payload.includes(trading.key)
+        ),
+      };
     case TradingActions.FILTER_TRADES:
       return {
         ...state,

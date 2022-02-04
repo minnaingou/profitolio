@@ -3,7 +3,7 @@ import {
   FormBuilder,
   FormControl,
   FormGroup,
-  Validators
+  Validators,
 } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -15,12 +15,12 @@ import {
   PAGE_ADD,
   PAGE_EDIT,
   TOOLBAR_DELETE,
-  TOOLBAR_ENTRY_DONE
+  TOOLBAR_ENTRY_DONE,
 } from 'src/app/shared/ui-constants';
 import { UiService } from 'src/app/shared/ui.service';
 import {
   ConfirmDialogComponent,
-  ConfirmDialogModel
+  ConfirmDialogModel,
 } from 'src/app/ui/confirm-dialog/confirm-dialog.component';
 import { DialogComponent } from 'src/app/ui/dialog/dialog.component';
 import * as fromApp from '../../store/app.reducer';
@@ -170,6 +170,7 @@ export class TradeEntryComponent implements OnInit, OnDestroy {
         startingAmount: tradingEntry.amount,
         price: tradingEntry.price,
         holding: true,
+        merged: false,
       };
 
       if (this.editMode) {

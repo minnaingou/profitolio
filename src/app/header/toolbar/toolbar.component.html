@@ -35,6 +35,9 @@
       <button mat-icon-button (click)="onToolbarAction('REFRESH')">
         <mat-icon>refresh</mat-icon>
       </button>
+      <button mat-icon-button (click)="onToolbarAction('MERGE')">
+        <mat-icon>merge</mat-icon>
+      </button>
       <button mat-icon-button (click)="onToolbarAction('FILTER')">
         <mat-icon
           *ngIf="filterActive; else noFilter"
@@ -45,10 +48,7 @@
           >filter_list</mat-icon
         >
         <ng-template #noFilter><mat-icon>filter_list</mat-icon></ng-template>
-      </button>
-      <!-- <button mat-icon-button (click)="onToolbarAction('MERGE')">
-        <mat-icon>merge</mat-icon>
-      </button> -->
+      </button>      
       <button mat-icon-button (click)="onToolbarAction('ADD')">
         <mat-icon>add</mat-icon>
       </button>
@@ -64,6 +64,11 @@
       </button>
       <button mat-icon-button (click)="onToolbarAction('ENTRY_DONE')">
         <mat-icon>done</mat-icon>
+      </button>
+    </div>
+    <div *ngIf="currentpage == 'PAGE_MERGE'">
+      <button mat-icon-button (click)="onToolbarAction('MERGE_HELP')">
+        <mat-icon>help_outline</mat-icon>
       </button>
     </div>
   </mat-toolbar>

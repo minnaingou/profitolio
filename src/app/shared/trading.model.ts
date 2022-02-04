@@ -9,7 +9,8 @@ export class Trading {
     public startingAmount: number,
     public price: number,
     public holding: boolean,
+    public merged?: boolean,
     public key?: string,
-    public sellingInfo?: { matchedTrade: Trading; realisedPL?: number }
+    public sellingInfo?: { matchedTrade: Trading; realisedPL?: number },
   ) {}
 }

@@ -1,13 +1,18 @@
-<div (click)="onEdit()">
+<div (click)="!readonly && onEdit()">
   <div class="item-header row-space">
     <span class="symbol-name">
       {{ item.symbol | uppercase }}
-      <mat-icon *ngIf="editable; else locked">chevron_right</mat-icon>
-      <ng-template #locked
-        ><mat-icon style="transform: scale(0.5)">lock</mat-icon></ng-template
-      >
+      <div *ngIf="!readonly">
+        <mat-icon *ngIf="editable; else locked">chevron_right</mat-icon>
+        <ng-template #locked
+          ><mat-icon style="transform: scale(0.5)">lock</mat-icon></ng-template
+        >
+      </div>
     </span>
-    <span class="caption">{{ item.exchange }}</span>
+    <span class="caption" *ngIf="item.exchange">{{ item.exchange }}</span>
+    <span *ngIf="item.merged" class="caption center">
+      <mat-icon color="primary" class="merged-icon">merge</mat-icon> Merged
+    </span>
   </div>
   <span class="row">
     <p
@@ -37,18 +42,18 @@
         {{ item.startingAmount }}
       </div>
     </div>
-    <div class="caption" style="flex: 1">x</div>
+    <div class="caption" style="flex: 0.3">x</div>
     <div style="flex: 2">
       <span class="caption">Price: </span>
       <span>${{ item.price }}</span>
     </div>
-    <div class="caption" style="flex: 1">=</div>
+    <div class="caption" style="flex: 0.3">=</div>
     <div style="text-align: right; flex: 2">
       <span class="caption">Total: </span>
       <span>${{ item.amount * item.price | number }}</span>
     </div>
   </div>
-  <div class="footer-info" *ngIf="isSell">
+  <div class="footer-info" *ngIf="isSell && !readonly">
     <span class="caption">Realised P&L: </span> &nbsp;
     <span
       class="chip"
@@ -61,7 +66,10 @@
       ${{ item.sellingInfo.realisedPL | number }}
     </span>
   </div>
-  <div class="footer-info" *ngIf="isBuy && item.updatedDate !== item.date">
+  <div
+    class="footer-info"
+    *ngIf="isBuy && item.updatedDate !== item.date && !readonly"
+  >
     <span class="caption">
       Last Trade: {{ item.updatedDate | date: "dd/MM/yyyy" }}
     </span>

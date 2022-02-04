@@ -22,6 +22,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatBadgeModule } from '@angular/material/badge';
+import { MatGridListModule } from '@angular/material/grid-list';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -45,6 +46,7 @@ import { ConfirmDialogComponent } from './ui/confirm-dialog/confirm-dialog.compo
 import { SortingMenuComponent } from './header/toolbar/sorting-menu/sorting-menu.component';
 import { FilteringSheetComponent } from './tradings/trading-list/filtering-sheet/filtering-sheet.component';
 import { OverviewComponent } from './overview/overview.component';
+import { MergeListComponent } from './tradings/merge-list/merge-list.component';
 
 @NgModule({
   declarations: [
@@ -64,6 +66,7 @@ import { OverviewComponent } from './overview/overview.component';
     SortingMenuComponent,
     FilteringSheetComponent,
     OverviewComponent,
+    MergeListComponent,
   ],
   imports: [
     BrowserModule,
@@ -92,6 +95,7 @@ import { OverviewComponent } from './overview/overview.component';
     MatBottomSheetModule,
     MatSlideToggleModule,
     MatBadgeModule,
+    MatGridListModule,
   ],
   providers: [{ provide: MAT_DATE_LOCALE, useValue: 'en-GB' }],
   bootstrap: [AppComponent],

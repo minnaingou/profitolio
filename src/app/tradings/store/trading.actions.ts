@@ -19,6 +19,9 @@ export const EDIT_TRADE = '[Trading] Edit Trade';
 export const EDIT_TRADE_SUCCESS = '[Trading] Edit Trade Success';
 export const DELETE_TRADE = '[Trading] Delete Trade';
 export const DELETE_TRADE_SUCCESS = '[Trading] Delete Trade Success';
+export const DELETE_MULTIPLE_TRADES = '[Trading] Delete Multiple Trades';
+export const DELETE_MULTIPLE_TRADES_SUCCESS =
+  '[Trading] Delete Multiple Trades SUCCESS';
 export const FILTER_TRADES = '[Trading] Filter Trades';
 export const FILTER_TRADES_CLEARED = '[Trading] Filter Trades Cleared';
 
@@ -93,6 +96,16 @@ export class DeleteTradeSuccess implements Action {
   constructor(public payload: string) {}
 }
 
+export class DeleteMultipleTrades implements Action {
+  readonly type = DELETE_MULTIPLE_TRADES;
+  constructor(public payload: { key: string; symbol: string }[]) {}
+}
+
+export class DeleteMultipleTradesSuccess implements Action {
+  readonly type = DELETE_MULTIPLE_TRADES_SUCCESS;
+  constructor(public payload: string[]) {}
+}
+
 export class FilterTrades implements Action {
   readonly type = FILTER_TRADES;
   constructor(public payload: FilteringCriteria) {}
@@ -114,4 +127,5 @@ export type TradingActions =
   | EditTradeSuccess
   | DeleteTradeSuccess
   | FilterTrades
-  | FilterTradesCleared;
+  | FilterTradesCleared
+  | DeleteMultipleTradesSuccess;

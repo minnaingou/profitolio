@@ -1,6 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, concat, map, of, switchMap, throwError } from 'rxjs';
+import {
+  catchError,
+  concat,
+  forkJoin,
+  map, of,
+  switchMap,
+  throwError
+} from 'rxjs';
 import { Trading } from 'src/app/shared/trading.model';
 import { UiService } from 'src/app/shared/ui.service';
 import * as TradingActions from '../store/trading.actions';
@@ -56,7 +63,7 @@ export class TradingEffects {
           storeTradingSuccess.payload
       ),
       switchMap((payload) => {
-        // saving coin name and exchange name for autocomplete
+        // saving coin name and exchange name for autocomplete & coin name:id pair for gecko api
         return this.tradingService.getCoinList().pipe(
           switchMap((coinListResponse: []) => {
             const coin: any = coinListResponse.find(
@@ -206,15 +213,37 @@ export class TradingEffects {
     );
   });
 
+  deleteMultipleTrades = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(TradingActions.DELETE_MULTIPLE_TRADES),
+      map(
+        (deleteMultipleTrades: TradingActions.DeleteMultipleTrades) =>
+          deleteMultipleTrades.payload
+      ),
+      switchMap((payload) => {
+        const httpObservableMap: {} = {};
+        payload.forEach((item) => {
+          httpObservableMap[item.key] = this.tradingService.deleteTrading(
+            item.key,
+            item.symbol
+          );
+        });
+        return forkJoin(httpObservableMap);
+      }),
+      map((keyMap) => {
+        console.log('deleting keys', keyMap);
+        const deletedKeys: string[] = Object.keys(keyMap).map((key) => key);
+        return new TradingActions.DeleteMultipleTradesSuccess(deletedKeys);
+      })
+    );
+  });
+
   filterTrades = createEffect(
     () => {
       return this.actions$.pipe(
         ofType(TradingActions.FILTER_TRADES),
-        map(
-          (filterTrades: TradingActions.FilterTrades) => filterTrades.payload
-        ),
-        map((payload) => {
-          this.uiService.tradeListFiltered.next(payload);
+        map(() => {
+          this.uiService.tradeListFiltered.next();
         })
       );
     },

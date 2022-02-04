@@ -102,7 +102,7 @@ export class HoldingListComponent implements OnInit, OnDestroy {
         totalHolding,
         unitCost,
         totalInvested,
-        realisedPL, //TODO later
+        realisedPL,
         latestPrice,
         latestPrice ? totalWorth : null,
         realisedPL + unrealisedPL,

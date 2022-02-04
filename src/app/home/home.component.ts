@@ -40,6 +40,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     const fragment = this.route.snapshot.fragment;
     if (fragment && fragment === 'tradings') {
       this.activeTabIndex = 1;
+      this.uiService.pageChanged.next(PAGE_TRADINGS);
     }
     this.snackbarSubscription = this.uiService.displaySnackbar.subscribe(
       (payload: { error: boolean; message: string }) => {

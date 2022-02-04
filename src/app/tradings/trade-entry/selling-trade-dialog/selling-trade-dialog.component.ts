@@ -15,7 +15,6 @@ import { SellingTradeDialogData } from '../selling-trade-dialog-data.model';
   selector: 'app-selling-trade-dialog',
   templateUrl: './selling-trade-dialog.component.html',
   styleUrls: ['./selling-trade-dialog.component.css'],
-  encapsulation: ViewEncapsulation.None,
 })
 export class SellingTradeDialogComponent implements OnInit {
   sellableTrades: Trading[];

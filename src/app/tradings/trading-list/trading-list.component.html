@@ -1,18 +1,12 @@
 <div>
-  <div *ngFor="let tradingItem of tradingList">
-    <app-trading-item [item]="tradingItem" (edit)="onEdit($event)"></app-trading-item>
+  <div *ngFor="let tradingItem of filteredTradingList">
+    <app-trading-item
+      [item]="tradingItem"
+      (edit)="onEdit($event)"
+    ></app-trading-item>
     <mat-divider></mat-divider>
   </div>
-  <div
-    *ngIf="tradingList.length === 0"
-    style="
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      min-height: 350px;
-    "
-  >
+  <div *ngIf="tradingList.length === 0" class="no-record">
     No records to display.
   </div>
 </div>

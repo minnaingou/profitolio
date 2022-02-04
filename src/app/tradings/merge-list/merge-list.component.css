@@ -1,0 +1,67 @@
+.summary-sheet {
+  background-color: white;
+  box-shadow: 0px 5px 15px 0px rgb(0 0 0 / 50%);
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  padding: 5px 5px 0 5px;
+}
+
+.summary-sheet > div {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.eligible-list {
+  padding-top: 55px;
+  padding-bottom: 90px;
+}
+
+.eligible-list .mat-list-item {
+  height: auto;
+}
+
+.sticky-selector {
+  position: fixed;
+  margin-top: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+:host ::ng-deep .mat-form-field-flex {
+  background-color: white !important;
+}
+
+:host ::ng-deep .mat-list-text {
+  font-size: small;
+}
+
+:host ::ng-deep .mat-select-value {
+  color: #3f51b5;
+  font-weight: 500;
+}
+
+:host ::ng-deep .mat-form-field-label {
+  color: #3f51b5;
+  font-size: medium;
+}
+
+.preview-chip {
+  background-color: skyblue;
+  color: white;
+}
+
+.merge-preview {
+  flex: 2;
+  padding-right: 10px;
+  flex-shrink: 3;
+  font-size: smaller;
+}
+
+.merge-button {
+  align-items: center;
+  flex: 1;
+  text-align: center;
+}

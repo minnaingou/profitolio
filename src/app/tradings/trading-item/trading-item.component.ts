@@ -11,6 +11,7 @@ import { DialogComponent } from 'src/app/ui/dialog/dialog.component';
 })
 export class TradingItemComponent implements OnInit {
   @Input() item!: Trading;
+  @Input() readonly?: boolean;
   @Output() edit = new EventEmitter<{ symbol: string; key: string }>();
 
   get isSell() {
