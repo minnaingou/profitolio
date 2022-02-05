@@ -31,7 +31,7 @@ import { ToolbarComponent } from './header/toolbar/toolbar.component';
 import { HoldingItemComponent } from './holdings/holding-item/holding-item.component';
 import { HoldingListComponent } from './holdings/holding-list/holding-list.component';
 import { HomeComponent } from './home/home.component';
-import { TabbarComponent } from './ui/tabbar/tabbar.component';
+import { TabbarComponent } from './home/tabbar/tabbar.component';
 import { TradeEntryComponent } from './tradings/trade-entry/trade-entry.component';
 import { TradingItemComponent } from './tradings/trading-item/trading-item.component';
 import { TradingListComponent } from './tradings/trading-list/trading-list.component';
