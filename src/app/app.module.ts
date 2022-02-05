@@ -23,6 +23,7 @@ import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -47,6 +48,7 @@ import { SortingMenuComponent } from './header/toolbar/sorting-menu/sorting-menu
 import { FilteringSheetComponent } from './tradings/trading-list/filtering-sheet/filtering-sheet.component';
 import { OverviewComponent } from './overview/overview.component';
 import { MergeListComponent } from './tradings/merge-list/merge-list.component';
+import { OverviewItemComponent } from './overview/overview-item/overview-item.component';
 
 @NgModule({
   declarations: [
@@ -67,6 +69,7 @@ import { MergeListComponent } from './tradings/merge-list/merge-list.component';
     FilteringSheetComponent,
     OverviewComponent,
     MergeListComponent,
+    OverviewItemComponent,
   ],
   imports: [
     BrowserModule,
@@ -96,6 +99,7 @@ import { MergeListComponent } from './tradings/merge-list/merge-list.component';
     MatSlideToggleModule,
     MatBadgeModule,
     MatGridListModule,
+    MatProgressBarModule,
   ],
   providers: [{ provide: MAT_DATE_LOCALE, useValue: 'en-GB' }],
   bootstrap: [AppComponent],

@@ -1,26 +1,9 @@
 <mat-list>
-  <div mat-subheader>Assessment</div>
-  <mat-list-item *ngFor="let folder of folders">
-    <div class="row" style="justify-content: space-between; width: 100%;">
-      <div class="row" style="align-items: center;">
-        <mat-icon mat-list-icon>insert_chart_outlined</mat-icon>
-        <div>{{ folder.name }}</div>
-      </div>
-      <div>{{ folder.updated | date }}</div>
-    </div>
-  </mat-list-item>
+  <app-overview-item [section]="plAssessmentSection"></app-overview-item>
   <mat-divider></mat-divider>
-  <div mat-subheader>Notes</div>
-  <mat-list-item *ngFor="let note of notes">
-    <mat-icon mat-list-icon>pie_chart</mat-icon>
-    <div mat-line>{{ note.name }}</div>
-    <div mat-line>{{ note.updated | date }}</div>
-  </mat-list-item>
+  <app-overview-item [section]="investmentSummarySection"></app-overview-item>
   <mat-divider></mat-divider>
-  <div mat-subheader>Notes</div>
-  <mat-list-item *ngFor="let note of notes">
-    <mat-icon mat-list-icon>show_chart</mat-icon>
-    <div mat-line>{{ note.name }}</div>
-    <div mat-line>{{ note.updated | date }}</div>
-  </mat-list-item>
+  <app-overview-item [section]="assetAllocationSection"></app-overview-item>
+  <mat-divider></mat-divider>
+  <app-overview-item [section]="historicalSection"></app-overview-item>
 </mat-list>

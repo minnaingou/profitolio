@@ -1,4 +1,10 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { Store } from '@ngrx/store';
 import { map, Subscription } from 'rxjs';
 import { SortingCriteriaModel } from 'src/app/header/toolbar/sorting-menu/sorting-menu.component';
@@ -16,7 +22,6 @@ import * as TradingActions from '../../tradings/store/trading.actions';
   styleUrls: ['./holding-list.component.css'],
 })
 export class HoldingListComponent implements OnInit, OnDestroy {
-
   @Output() gotoTradings = new EventEmitter<void>();
 
   holdingItems: Holding[] = [];
@@ -136,6 +141,8 @@ export class HoldingListComponent implements OnInit, OnDestroy {
     if (latestPrices.length == 0 && symbolList.length != 0) {
       this.store.dispatch(new TradingActions.FetchLatestPrices());
     }
-    return holdings.sort((a, b) => b.totalCost - a.totalCost);
+    return holdings
+      .filter((holdingItem) => holdingItem.holding !== 0)
+      .sort((a, b) => b.totalCost - a.totalCost);
   }
 }

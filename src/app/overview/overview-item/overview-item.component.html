@@ -1,0 +1,44 @@
+<div mat-subheader style="padding-left: 0">{{ section.title }}</div>
+<mat-list-item *ngFor="let line of section.lines">
+  <div class="row line" *ngIf="line.display === 'row'; else columnDisplay">
+    <div class="row" style="align-items: center">
+      <mat-icon mat-list-icon>{{ line.icon }}</mat-icon>
+      <div style="padding-left: 16px">{{ line.title }}</div>
+    </div>
+    <div>
+      {{ line.currency ? ((line.content | async) >= 0 ? "" : "-") : "" }}
+      {{
+        line.currency
+          ? "$" + (line.content | async | number)
+          : (line.content | async)
+      }}
+    </div>
+  </div>
+  <ng-template #columnDisplay>
+    <mat-icon mat-list-icon style="position: absolute; top: 20px">{{
+      line.icon
+    }}</mat-icon>
+    <div class="mat-list-text" style="padding-left: 50px">
+      <div mat-line style="padding-bottom: 5px">{{ line.title }}</div>
+      <div
+        mat-line
+        *ngIf="line.content | async; else loading"
+        style="height: 24px"
+      >
+        <span style="font-size: 14">
+          {{ line.currency ? ((line.content | async) >= 0 ? "" : "-") : "" }}
+          {{
+            line.currency
+              ? "$" + (line.content | async | number)
+              : (line.content | async)
+          }}</span
+        >
+      </div>
+      <ng-template #loading>
+        <div style="width: 40px">
+          <mat-progress-bar mode="buffer" color="primary"></mat-progress-bar>
+        </div>
+      </ng-template>
+    </div>
+  </ng-template>
+</mat-list-item>
