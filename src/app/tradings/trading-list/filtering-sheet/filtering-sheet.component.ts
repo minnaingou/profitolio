@@ -24,6 +24,8 @@ import { CheckboxModel, FilteringCriteria } from './filtering-criteria.model';
 export class FilteringSheetComponent implements OnInit {
   filterForm: FormGroup;
   holdingsOnlyControl = new FormControl(false);
+  symbolList: string[] = [];
+  exchangeList: string[] = [];
 
   tradingStoreSubscription: Subscription;
 
@@ -42,27 +44,34 @@ export class FilteringSheetComponent implements OnInit {
   constructor(
     private _bottomSheetRef: MatBottomSheetRef<FilteringSheetComponent>,
     private store: Store<fromApp.AppState>,
-    private formBuilder: FormBuilder,
-    @Inject(MAT_BOTTOM_SHEET_DATA)
-    private data: { symbolList: string[]; exchangeList: string[] }
-  ) {}
+    private formBuilder: FormBuilder
+  ) // @Inject(MAT_BOTTOM_SHEET_DATA)
+  // private data: { symbolList: string[]; exchangeList: string[] }
+  {}
 
   ngOnInit(): void {
     this.tradingStoreSubscription = this.store
       .select('trading')
-      .pipe(map((state) => state.filteringCriteria))
-      .subscribe((newCriteria) => {
-        this.initForm(newCriteria);
+      .subscribe(({ tradings, filteringCriteria }) => {
+        const symbolList = new Set<string>();
+        const exchangeList = new Set<string>();
+        tradings.forEach((trading) => {
+          symbolList.add(trading.symbol);
+          trading.exchange && exchangeList.add(trading.exchange);
+        });
+        this.symbolList = Array.from(symbolList);
+        this.exchangeList = Array.from(exchangeList);
+        this.initForm(filteringCriteria);
       });
   }
 
   private initForm(newCriteria: FilteringCriteria) {
     let symbolControls = this.createFormArray(
-      this.data.symbolList,
+      this.symbolList,
       newCriteria.symbols
     );
     let exchangeControls = this.createFormArray(
-      this.data.exchangeList,
+      this.exchangeList,
       newCriteria.exchanges
     );
 
@@ -87,7 +96,7 @@ export class FilteringSheetComponent implements OnInit {
   ) {
     let formArrayControls = new FormArray([]);
     originalList.forEach((item) => {
-      if (criteriaList.length === 0) {
+      if (!criteriaList || criteriaList.length === 0) {
         formArrayControls.push(
           new FormGroup({
             name: new FormControl(item),

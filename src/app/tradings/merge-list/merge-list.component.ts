@@ -31,6 +31,7 @@ export class MergeListComponent implements OnInit, OnDestroy {
   mergable: boolean = false;
 
   tradingStoreSubscription: Subscription;
+  toolbarActionSubscription: Subscription;
 
   constructor(
     private uiService: UiService,
@@ -57,7 +58,7 @@ export class MergeListComponent implements OnInit, OnDestroy {
         }
       });
 
-    this.uiService.toolbarButtonClicked.subscribe((action) => {
+    this.toolbarActionSubscription = this.uiService.toolbarButtonClicked.subscribe((action) => {
       switch (action) {
         case TOOLBAR_MERGE_HELP:
           this.dialog.open(DialogComponent, {
@@ -79,6 +80,7 @@ export class MergeListComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.tradingStoreSubscription.unsubscribe();
+    this.toolbarActionSubscription.unsubscribe();
   }
 
   onSymbolChange() {

@@ -1,5 +1,5 @@
 <div>
-  <div *ngFor="let holdingItem of holdingItems">
+  <div *ngFor="let holdingItem of holdingItems" (click)="onFilter(holdingItem.symbol)">
     <app-holding-item [item]="holdingItem"></app-holding-item>
     <mat-divider></mat-divider>
   </div>

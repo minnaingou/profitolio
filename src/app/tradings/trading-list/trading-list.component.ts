@@ -50,6 +50,28 @@ export class TradingListComponent implements OnInit, OnDestroy {
       });
   }
 
+  ngOnDestroy(): void {
+    this.tradingStoreSubscription.unsubscribe();
+    this.toolbarActionSubscription.unsubscribe();
+  }
+
+  onEdit(data: { symbol: string; key: string }) {
+    this.router.navigate(['/edit', data.symbol, data.key]);
+  }
+
+  openFilterSheet(): void {
+    // const symbolList = new Set();
+    // const exchangeList = new Set();
+    // this.tradingList.forEach((trading) => {
+    //   symbolList.add(trading.symbol);
+    //   trading.exchange && exchangeList.add(trading.exchange);
+    // });
+    // this._bottomSheet.open(FilteringSheetComponent, {
+    //   data: { symbolList, exchangeList },
+    // });
+    this._bottomSheet.open(FilteringSheetComponent);
+  }
+
   private filterByCriteria(
     tradingList: Trading[],
     criteria: FilteringCriteria
@@ -61,7 +83,7 @@ export class TradingListComponent implements OnInit, OnDestroy {
       })
       .filter((trading) => {
         // filtering for 'type'
-        if (criteria.types.length !== 0) {
+        if (criteria.types && criteria.types.length !== 0) {
           for (let type of criteria.types) {
             if (type.name === trading.type) return true;
           }
@@ -71,7 +93,7 @@ export class TradingListComponent implements OnInit, OnDestroy {
       })
       .filter((trading) => {
         // filtering for 'symbol'
-        if (criteria.symbols.length !== 0) {
+        if (criteria.symbols && criteria.symbols.length !== 0) {
           for (let symbol of criteria.symbols) {
             if (symbol.name === trading.symbol) return true;
           }
@@ -81,7 +103,7 @@ export class TradingListComponent implements OnInit, OnDestroy {
       })
       .filter((trading) => {
         // filtering for 'exchange'
-        if (criteria.exchanges.length !== 0) {
+        if (criteria.exchanges && criteria.exchanges.length !== 0) {
           for (let exchange of criteria.exchanges) {
             if (exchange.name === trading.exchange) return true;
           }
@@ -121,26 +143,5 @@ export class TradingListComponent implements OnInit, OnDestroy {
 
   private sortByDate(a: Trading, b: Trading) {
     return new Date(b.date).getTime() - new Date(a.date).getTime();
-  }
-
-  ngOnDestroy(): void {
-    this.tradingStoreSubscription.unsubscribe();
-    this.toolbarActionSubscription.unsubscribe();
-  }
-
-  onEdit(data: { symbol: string; key: string }) {
-    this.router.navigate(['/edit', data.symbol, data.key]);
-  }
-
-  openFilterSheet(): void {
-    const symbolList = new Set();
-    const exchangeList = new Set();
-    this.tradingList.forEach((trading) => {
-      symbolList.add(trading.symbol);
-      trading.exchange && exchangeList.add(trading.exchange);
-    });
-    this._bottomSheet.open(FilteringSheetComponent, {
-      data: { symbolList, exchangeList },
-    });
   }
 }

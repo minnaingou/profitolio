@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { map, Subscription } from 'rxjs';
 import { SortingCriteriaModel } from 'src/app/header/toolbar/sorting-menu/sorting-menu.component';
@@ -6,6 +6,7 @@ import { Holding } from 'src/app/shared/holding.model';
 import { LatestPrice } from 'src/app/shared/latestPrice.model';
 import { Trading } from 'src/app/shared/trading.model';
 import { UiService } from 'src/app/shared/ui.service';
+import { FilteringCriteria } from 'src/app/tradings/trading-list/filtering-sheet/filtering-criteria.model';
 import * as fromApp from '../../store/app.reducer';
 import * as TradingActions from '../../tradings/store/trading.actions';
 
@@ -15,6 +16,9 @@ import * as TradingActions from '../../tradings/store/trading.actions';
   styleUrls: ['./holding-list.component.css'],
 })
 export class HoldingListComponent implements OnInit, OnDestroy {
+
+  @Output() gotoTradings = new EventEmitter<void>();
+
   holdingItems: Holding[] = [];
 
   tradingStoreSubscription: Subscription;
@@ -47,6 +51,19 @@ export class HoldingListComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.tradingStoreSubscription.unsubscribe();
     this.holdingSortedSubscription.unsubscribe();
+  }
+
+  onFilter(symbolName: string) {
+    const newCriteria: FilteringCriteria = {
+      types: [
+        { name: 'buy', selected: true },
+        { name: 'sell', selected: true },
+      ],
+      holdingsOnly: true,
+      symbols: [{ name: symbolName, selected: true }],
+    };
+    this.store.dispatch(new TradingActions.FilterTrades(newCriteria));
+    this.gotoTradings.emit();
   }
 
   private sortHoldings(criteria: SortingCriteriaModel, a: any, b: any) {
