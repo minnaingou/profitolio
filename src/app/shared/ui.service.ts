@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
-import { SortingCriteriaModel } from '../header/toolbar/sorting-menu/sorting-menu.component';
-import { FilteringCriteria } from '../tradings/trading-list/filtering-sheet/filtering-criteria.model';
+import { SortingCriteriaModel } from '../toolbar/sorting-menu/sorting-menu.component';
 
 @Injectable({ providedIn: 'root' })
 export class UiService {

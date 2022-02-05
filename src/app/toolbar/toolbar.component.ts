@@ -1,4 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import {
@@ -18,8 +24,18 @@ import { SortingCriteriaModel } from './sorting-menu/sorting-menu.component';
   styleUrls: ['./toolbar.component.css'],
 })
 export class ToolbarComponent implements OnInit, OnDestroy {
+  @Output() drawerOpened = new EventEmitter<void>();
+
   filterActive: boolean = false;
   currentpage: string = PAGE_HOLDINGS;
+
+  get isHomePage() {
+    return (
+      this.currentpage === 'PAGE_TRADINGS' ||
+      this.currentpage === 'PAGE_HOLDINGS' ||
+      this.currentpage === 'PAGE_OVERVIEW'
+    );
+  }
 
   toolbarIconsSubscription: Subscription;
   tradesFilteredSubscription: Subscription;
@@ -80,5 +96,9 @@ export class ToolbarComponent implements OnInit, OnDestroy {
 
   onHoldingSort(criteria: SortingCriteriaModel) {
     this.uiService.holdingSorted.next(criteria);
+  }
+
+  onOpenDrawer() {
+    this.drawerOpened.emit();
   }
 }

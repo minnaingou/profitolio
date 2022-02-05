@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { map, Subscription } from 'rxjs';
-import { SortingCriteriaModel } from 'src/app/header/toolbar/sorting-menu/sorting-menu.component';
+import { SortingCriteriaModel } from 'src/app/toolbar/sorting-menu/sorting-menu.component';
 import { Holding } from 'src/app/shared/holding.model';
 import { LatestPrice } from 'src/app/shared/latestPrice.model';
 import { Trading } from 'src/app/shared/trading.model';

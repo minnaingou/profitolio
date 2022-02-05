@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs';
 import { Location } from '@angular/common';
 import {
   PAGE_HOLDINGS,
+  PAGE_OVERVIEW,
   PAGE_TRADINGS,
   TOOLBAR_REFRESH,
 } from '../shared/ui-constants';
@@ -69,6 +70,9 @@ export class HomeComponent implements OnInit, OnDestroy {
         break;
       case 1:
         this.uiService.pageChanged.next(PAGE_TRADINGS);
+        break;
+        case 2:
+        this.uiService.pageChanged.next(PAGE_OVERVIEW);
         break;
     }
   }

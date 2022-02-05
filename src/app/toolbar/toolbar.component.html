@@ -3,10 +3,8 @@
     <div style="display: flex; align-items: center">
       <button
         mat-icon-button
-        *ngIf="
-          currentpage == 'PAGE_HOLDINGS' || currentpage == 'PAGE_TRADINGS';
-          else showBack
-        "
+        (click)="onOpenDrawer()"
+        *ngIf="isHomePage; else showBack"
       >
         <mat-icon>menu</mat-icon>
       </button>
@@ -22,14 +20,8 @@
       /></span>
     </div>
     <span class="spacer"></span>
-    <div *ngIf="currentpage == 'PAGE_HOLDINGS'">      
+    <div *ngIf="currentpage == 'PAGE_HOLDINGS'">
       <app-sorting-menu (sorted)="onHoldingSort($event)"></app-sorting-menu>
-      <button mat-icon-button (click)="onToolbarAction('REFRESH')">
-        <mat-icon>refresh</mat-icon>
-      </button>
-      <button mat-icon-button (click)="onToolbarAction('ADD')">
-        <mat-icon>add</mat-icon>
-      </button>
     </div>
     <div *ngIf="currentpage == 'PAGE_TRADINGS'">
       <button mat-icon-button (click)="onToolbarAction('MERGE')">
@@ -46,6 +38,8 @@
         >
         <ng-template #noFilter><mat-icon>filter_list</mat-icon></ng-template>
       </button>
+    </div>
+    <div *ngIf="isHomePage">
       <button mat-icon-button (click)="onToolbarAction('REFRESH')">
         <mat-icon>refresh</mat-icon>
       </button>

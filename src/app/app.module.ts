@@ -24,11 +24,11 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatSidenavModule } from '@angular/material/sidenav';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HeaderComponent } from './header/header.component';
-import { ToolbarComponent } from './header/toolbar/toolbar.component';
+import { ToolbarComponent } from './toolbar/toolbar.component';
 import { HoldingItemComponent } from './holdings/holding-item/holding-item.component';
 import { HoldingListComponent } from './holdings/holding-list/holding-list.component';
 import { HomeComponent } from './home/home.component';
@@ -44,7 +44,7 @@ import { TradingEffects } from './tradings/store/trading.effects';
 import { HttpClientModule } from '@angular/common/http';
 import { SellingTradeDialogComponent } from './tradings/trade-entry/selling-trade-dialog/selling-trade-dialog.component';
 import { ConfirmDialogComponent } from './ui/confirm-dialog/confirm-dialog.component';
-import { SortingMenuComponent } from './header/toolbar/sorting-menu/sorting-menu.component';
+import { SortingMenuComponent } from './toolbar/sorting-menu/sorting-menu.component';
 import { FilteringSheetComponent } from './tradings/trading-list/filtering-sheet/filtering-sheet.component';
 import { OverviewComponent } from './overview/overview.component';
 import { MergeListComponent } from './tradings/merge-list/merge-list.component';
@@ -53,7 +53,6 @@ import { OverviewItemComponent } from './overview/overview-item/overview-item.co
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent,
     ToolbarComponent,
     TabbarComponent,
     HomeComponent,
@@ -100,6 +99,7 @@ import { OverviewItemComponent } from './overview/overview-item/overview-item.co
     MatBadgeModule,
     MatGridListModule,
     MatProgressBarModule,
+    MatSidenavModule,
   ],
   providers: [{ provide: MAT_DATE_LOCALE, useValue: 'en-GB' }],
   bootstrap: [AppComponent],
