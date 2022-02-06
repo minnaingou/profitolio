@@ -1,5 +1,7 @@
 <div class="wrapper" style="padding: 10px 0">
-  <span style="font-size: medium; font-weight: 400;">Average Price Calculator</span>
+  <span style="font-size: medium; font-weight: 400"
+    >Average Price Calculator</span
+  >
   <form [formGroup]="ordersForm">
     <div formArrayName="orders">
       <div
@@ -30,7 +32,11 @@
 </div>
 <div class="summary-sheet">
   <div class="row" style="justify-content: space-around; align-items: center">
-    <span>The average cost for {{ totalQuantity }} items is ${{ averagePrice | number }}</span>
+    <span
+      >The average cost for {{ totalQuantity }} items is ${{
+        averagePrice | number
+      }}</span
+    >
     <button mat-raised-button (click)="onReset()" color="warn">Reset</button>
   </div>
 </div>
