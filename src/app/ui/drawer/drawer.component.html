@@ -1,0 +1,33 @@
+<mat-nav-list disableRipple>
+  <a
+    mat-list-item
+    routerLink="/"
+    routerLinkActive="active-link"
+    (click)="onToggleDrawer()"
+    [routerLinkActiveOptions]="{ exact: true }"
+  >
+    <mat-icon mat-list-icon>auto_awesome_mosaic</mat-icon>
+    <div mat-line>Portfolio</div>
+  </a>
+  <mat-divider></mat-divider>
+  <div mat-subheader>Tools</div>
+  <a
+    mat-list-item
+    routerLink="/tools/vwap-calculator"
+    routerLinkActive="active-link"
+    (click)="onToggleDrawer()"
+  >
+    <mat-icon mat-list-icon>calculate</mat-icon>
+    <div mat-line>Average Price Calculator</div>
+  </a>
+  <mat-divider style="padding: 5px 0"></mat-divider>
+  <a
+    mat-list-item
+    routerLink="/about"
+    routerLinkActive="active-link"
+    (click)="onToggleDrawer()"
+  >
+    <mat-icon mat-list-icon>info</mat-icon>
+    <div mat-line>About</div>
+  </a>
+</mat-nav-list>

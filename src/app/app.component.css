@@ -1,0 +1,12 @@
+.drawer-container {
+  height: 100vh;
+}
+
+.body-wrapper {
+  padding-top: 55px;
+}
+
+.drawer {
+  min-width: 45%;
+  background-color: ghostwhite;
+}

@@ -1,4 +1,12 @@
-<div>
-  <app-toolbar></app-toolbar>
-  <router-outlet></router-outlet>
-</div>
+<mat-drawer-container autosize class="drawer-container">
+  <mat-drawer #drawer mode="push" class="drawer">
+    <app-drawer (toggleDrawer)="drawer.toggle()"></app-drawer>
+  </mat-drawer>
+
+  <div>
+    <app-toolbar (drawerOpened)="drawer.toggle()"></app-toolbar>
+    <div class="body-wrapper">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</mat-drawer-container>

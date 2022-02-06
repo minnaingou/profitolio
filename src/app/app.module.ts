@@ -49,6 +49,9 @@ import { FilteringSheetComponent } from './tradings/trading-list/filtering-sheet
 import { OverviewComponent } from './overview/overview.component';
 import { MergeListComponent } from './tradings/merge-list/merge-list.component';
 import { OverviewItemComponent } from './overview/overview-item/overview-item.component';
+import { DrawerComponent } from './ui/drawer/drawer.component';
+import { AboutComponent } from './about/about.component';
+import { ToolsModule } from './tools/tools.module';
 
 @NgModule({
   declarations: [
@@ -69,6 +72,8 @@ import { OverviewItemComponent } from './overview/overview-item/overview-item.co
     OverviewComponent,
     MergeListComponent,
     OverviewItemComponent,
+    DrawerComponent,
+    AboutComponent,
   ],
   imports: [
     BrowserModule,
@@ -79,6 +84,7 @@ import { OverviewItemComponent } from './overview/overview-item/overview-item.co
     EffectsModule.forRoot([TradingEffects]),
     StoreDevtoolsModule.instrument({ logOnly: environment.production }),
     HttpClientModule,
+    ToolsModule,
     MatToolbarModule,
     MatIconModule,
     MatButtonModule,
