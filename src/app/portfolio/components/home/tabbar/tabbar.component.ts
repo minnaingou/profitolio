@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { MatTabGroup } from '@angular/material/tabs';
+import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 
 @Component({
   selector: 'app-tabbar',
@@ -8,17 +8,18 @@ import { MatTabGroup } from '@angular/material/tabs';
 })
 export class TabbarComponent implements OnInit {
   @Input() activeIndex: number = 0;
-  @Output() tabChanged = new EventEmitter<number>();
+  @Output() tabChanged = new EventEmitter<string>();
 
   constructor() {}
 
   ngOnInit(): void {}
 
-  onTabChange(activeIndex: number) {
-    this.tabChanged.emit(activeIndex);
+  onTabChange(event: MatTabChangeEvent) {
+    this.tabChanged.next(event.tab.textLabel);
   }
 
-  onGotoTradings(tabGroup: MatTabGroup) {
+  onFilterTradings(tabGroup: MatTabGroup) {
+    // navigate to tradings tab
     tabGroup.selectedIndex = 1;
   }
 }

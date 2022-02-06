@@ -5,14 +5,14 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import Decimal from 'decimal.js';
 import { map, Subscription } from 'rxjs';
-
 import { Trading } from 'src/app/portfolio/models/tradings/trading.model';
 import { ConfirmDialogComponent, ConfirmDialogModel } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
 import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';
 import { UiService } from 'src/app/shared/services/ui.service';
-import { PAGE_MERGE, TOOLBAR_MERGE_HELP } from 'src/app/shared/ui-constants';
+import { TOOLBAR_MERGE_HELP } from 'src/app/shared/ui-constants';
 import * as fromApp from '../../../../store/app.reducer';
 import * as TradingActions from '../../../store/trading.actions';
+
 
 @Component({
   selector: 'app-merge-list',
@@ -38,7 +38,7 @@ export class MergeListComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.uiService.pageChanged.next(PAGE_MERGE);
+    this.uiService.showBackButton.next(true);
 
     this.tradingStoreSubscription = this.store
       .select('trading')
@@ -154,7 +154,7 @@ export class MergeListComponent implements OnInit, OnDestroy {
         this.store.dispatch(
           new TradingActions.DeleteMultipleTrades(deleteList)
         );
-        this.router.navigate(['/'], { fragment: 'tradings' });
+        this.router.navigate(['/'], { fragment: 'Tradings' });
       }
     });
   }

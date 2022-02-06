@@ -5,7 +5,8 @@ import { SortingCriteriaModel } from '../components/toolbar/sorting-menu/sorting
 
 @Injectable({ providedIn: 'root' })
 export class UiService {
-  pageChanged = new Subject<string>();
+  showBackButton = new Subject<boolean>();
+  tabChanged = new Subject<string>();
   toolbarButtonClicked = new Subject<string>();
   holdingSorted = new Subject<SortingCriteriaModel>();
   displaySnackbar = new Subject<{ error: boolean; message: string }>();

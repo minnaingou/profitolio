@@ -1,13 +1,13 @@
 <div>
   <mat-tab-group
     [selectedIndex]="activeIndex"
-    (selectedIndexChange)="onTabChange($event)"
+    (selectedTabChange)="onTabChange($event)"
     animationDuration="500ms"
     backgroundColor="primary"
     #tabGroup
   >
     <mat-tab label="Holdings">
-      <app-holding-list (gotoTradings)="onGotoTradings(tabGroup)"></app-holding-list>
+      <app-holding-list (filterTradings)="onFilterTradings(tabGroup)"></app-holding-list>
     </mat-tab>
     <mat-tab label="Tradings">
       <ng-template matTabContent>

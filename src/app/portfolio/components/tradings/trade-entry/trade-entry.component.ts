@@ -12,8 +12,6 @@ import Decimal from 'decimal.js';
 import { Subscription } from 'rxjs';
 
 import {
-  PAGE_ADD,
-  PAGE_EDIT,
   TOOLBAR_DELETE,
   TOOLBAR_ENTRY_DONE,
 } from 'src/app/shared/ui-constants';
@@ -78,11 +76,7 @@ export class TradeEntryComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.editMode = this.route.snapshot.data['edit'];
-    if (this.editMode) {
-      this.uiService.pageChanged.next(PAGE_EDIT);
-    } else {
-      this.uiService.pageChanged.next(PAGE_ADD);
-    }
+    this.uiService.showBackButton.next(true);
     this.toolbarActionSubscription =
       this.uiService.toolbarButtonClicked.subscribe((action) => {
         switch (action) {
@@ -155,7 +149,7 @@ export class TradeEntryComponent implements OnInit, OnDestroy {
         data: {
           content: 'No record found.',
           onCloseHandler: () => {
-            this.router.navigate(['/'], { fragment: 'tradings' });
+            this.router.navigate(['/'], { fragment: 'Tradings' });
           },
         },
       });
@@ -219,7 +213,7 @@ export class TradeEntryComponent implements OnInit, OnDestroy {
         this.tradingService.createNewTrading(trading);
       }
 
-      this.router.navigate(['/'], { fragment: 'tradings' });
+      this.router.navigate(['/'], { fragment: 'Tradings' });
     }
   }
 
@@ -239,7 +233,7 @@ export class TradeEntryComponent implements OnInit, OnDestroy {
       });
       dialogRef.afterClosed().subscribe((dialogResult) => {
         if (dialogResult) {
-          this.router.navigate(['/'], { fragment: 'tradings' });
+          this.router.navigate(['/'], { fragment: 'Tradings' });
           this.store.dispatch(
             new TradingActions.DeleteTrade({
               key: this.editingKey,

@@ -23,7 +23,7 @@ import * as TradingActions from '../../../store/trading.actions';
   styleUrls: ['./holding-list.component.css'],
 })
 export class HoldingListComponent implements OnInit, OnDestroy {
-  @Output() gotoTradings = new EventEmitter<void>();
+  @Output() filterTradings = new EventEmitter<void>();
 
   holdingItems: Holding[] = [];
 
@@ -69,7 +69,7 @@ export class HoldingListComponent implements OnInit, OnDestroy {
       symbols: [{ name: symbolName, selected: true }],
     };
     this.store.dispatch(new TradingActions.FilterTrades(newCriteria));
-    this.gotoTradings.emit();
+    this.filterTradings.emit();
   }
 
   private sortHoldings(criteria: SortingCriteriaModel, a: any, b: any) {

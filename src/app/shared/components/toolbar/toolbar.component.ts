@@ -3,17 +3,16 @@ import {
   EventEmitter,
   OnDestroy,
   OnInit,
-  Output,
+  Output
 } from '@angular/core';
-import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { NavigationStart, Router } from '@angular/router';
+import { filter, Subscription } from 'rxjs';
 import {
-  PAGE_HOLDINGS,
   TOOLBAR_DELETE,
   TOOLBAR_ENTRY_DONE,
   TOOLBAR_FILTER,
   TOOLBAR_MERGE_HELP,
-  TOOLBAR_REFRESH,
+  TOOLBAR_REFRESH
 } from 'src/app/shared/ui-constants';
 import { UiService } from '../../services/ui.service';
 import { SortingCriteriaModel } from './sorting-menu/sorting-menu.component';
@@ -27,26 +26,39 @@ export class ToolbarComponent implements OnInit, OnDestroy {
   @Output() drawerOpened = new EventEmitter<void>();
 
   filterActive: boolean = false;
-  currentpage: string = PAGE_HOLDINGS;
+  currentpage: string;
+  showBackButton: boolean = false;
 
   get isHomePage() {
     return (
-      this.currentpage === 'PAGE_TRADINGS' ||
-      this.currentpage === 'PAGE_HOLDINGS' ||
-      this.currentpage === 'PAGE_OVERVIEW'
+      this.currentpage === '/#Holdings' ||
+      this.currentpage === '/#Tradings' ||
+      this.currentpage === '/#Overview'
     );
   }
 
-  toolbarIconsSubscription: Subscription;
   tradesFilteredSubscription: Subscription;
   tradesFilterClearedSubscription: Subscription;
+  tabChangedSubscription: Subscription;
 
   constructor(private router: Router, private uiService: UiService) {}
 
   ngOnInit(): void {
-    this.toolbarIconsSubscription = this.uiService.pageChanged.subscribe(
-      (pagename) => {
-        this.currentpage = pagename;
+    this.uiService.showBackButton.subscribe((showBackButton) => {
+      this.showBackButton = showBackButton;
+    });
+    this.router.events
+      .pipe(filter((e) => e instanceof NavigationStart))
+      .subscribe((event: NavigationStart) => {
+        if (event.url.startsWith('/edit/')) {
+          this.currentpage = '/edit';
+        } else {
+          this.currentpage = event.url;
+        }
+      });
+    this.tabChangedSubscription = this.uiService.tabChanged.subscribe(
+      (newTab) => {
+        this.currentpage = newTab;
       }
     );
     this.tradesFilteredSubscription =
@@ -60,9 +72,9 @@ export class ToolbarComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.toolbarIconsSubscription.unsubscribe();
     this.tradesFilteredSubscription.unsubscribe();
     this.tradesFilterClearedSubscription.unsubscribe();
+    this.tabChangedSubscription.unsubscribe();
   }
 
   onToolbarAction(action: string) {
@@ -71,7 +83,9 @@ export class ToolbarComponent implements OnInit, OnDestroy {
         this.router.navigate(['/new']);
         break;
       case 'BACK':
-        this.router.navigate(['../']);
+        const lastTab = localStorage.getItem('lastTab');
+        this.router.navigate(['../'], { fragment: lastTab ? lastTab : '' });
+        this.uiService.showBackButton.next(false);
         break;
       case 'ENTRY_DONE':
         this.uiService.toolbarButtonClicked.next(TOOLBAR_ENTRY_DONE);
