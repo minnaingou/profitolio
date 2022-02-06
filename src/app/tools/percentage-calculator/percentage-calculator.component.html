@@ -1,0 +1,24 @@
+<div class="wrapper" style="padding: 10px 0">
+  <span style="font-size: medium; font-weight: 400">Percentage Change Calculator</span>
+  <form [formGroup]="form">
+    <div class="column" style="padding-top: 20px;">
+      <mat-form-field appearance="fill" class="textbox">
+        <mat-label>Original Value</mat-label>
+        <input matInput type="number" formControlName="original" />
+      </mat-form-field>
+      <mat-form-field appearance="fill" class="textbox">
+        <mat-label>Target Value</mat-label>
+        <input matInput type="number" formControlName="target" />
+      </mat-form-field>
+    </div>
+  </form>
+</div>
+<div class="summary-sheet">
+  <div class="row" style="justify-content: space-around; align-items: center">
+    <span>
+      {{ percentageChanged | number }}%
+      {{ percentageChanged >= 0 ? 'increased' : 'decreased'}}
+    </span>
+    <button mat-raised-button (click)="onReset()" color="warn">Reset</button>
+  </div>
+</div>
