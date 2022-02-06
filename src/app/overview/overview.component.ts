@@ -48,10 +48,10 @@ export class OverviewComponent implements OnInit {
       icon: 'stacked_line_chart',
       display: 'row',
       content: new Promise((resolve) => {
-        resolve(
+        const result =
           this.calculateTotalUnrealisedPL(tradings, latestPrices) +
-            this.calculateTotalRealisedPL(tradings)
-        );
+          this.calculateTotalRealisedPL(tradings);
+        resolve(result ? result : 0);
       }),
     });
 
@@ -61,7 +61,8 @@ export class OverviewComponent implements OnInit {
       icon: 'show_chart',
       display: 'row',
       content: new Promise((resolve) => {
-        resolve(this.calculateTotalUnrealisedPL(tradings, latestPrices));
+        const result = this.calculateTotalUnrealisedPL(tradings, latestPrices);
+        resolve(result ? result : 0);
       }),
     });
 
@@ -71,7 +72,8 @@ export class OverviewComponent implements OnInit {
       icon: 'show_chart',
       display: 'row',
       content: new Promise((resolve) => {
-        resolve(this.calculateTotalRealisedPL(tradings));
+        const result = this.calculateTotalRealisedPL(tradings);
+        resolve(result ? result : 0);
       }),
     });
 
@@ -93,7 +95,8 @@ export class OverviewComponent implements OnInit {
       icon: 'attach_money',
       display: 'column',
       content: new Promise((resolve) => {
-        resolve(this.calculateTotalInvestedCost(tradings));
+        const result = this.calculateTotalInvestedCost(tradings);
+        resolve(result ? result : 0);
       }),
     });
 
@@ -103,7 +106,8 @@ export class OverviewComponent implements OnInit {
       icon: 'candlestick_chart',
       display: 'column',
       content: new Promise((resolve) => {
-        resolve(this.calculateTotalInvestedValue(tradings, latestPrices));
+        const result = this.calculateTotalInvestedValue(tradings, latestPrices);
+        resolve(result ? result : 0);
       }),
     });
 
@@ -134,13 +138,12 @@ export class OverviewComponent implements OnInit {
         icon: 'donut_large',
         display: 'row',
         content: new Promise((resolve) => {
-          resolve(
-            this.findPercentageHolding(
-              symbol,
-              filteredTradings,
-              totalInvestedCost
-            )
+          const result = this.findPercentageHolding(
+            symbol,
+            filteredTradings,
+            totalInvestedCost
           );
+          resolve(result ? result : 0);
         }),
       };
     });
@@ -216,7 +219,11 @@ export class OverviewComponent implements OnInit {
       icon: 'today',
       display: 'row',
       content: new Promise<number>((resolve) => {
-        resolve(this.calculateRealisedPLFromDate(filteredTradings, fromDate));
+        const result = this.calculateRealisedPLFromDate(
+          filteredTradings,
+          fromDate
+        );
+        resolve(result ? result : 0);
       }),
     };
   }
@@ -229,7 +236,7 @@ export class OverviewComponent implements OnInit {
     return tradings
       .filter((trading) => trading.type === 'sell')
       .map((trading) => trading.sellingInfo.realisedPL)
-      .reduce(this.sumReducer);
+      .reduce(this.sumReducer, 0);
   }
 
   private calculateTotalUnrealisedPL(
@@ -244,7 +251,7 @@ export class OverviewComponent implements OnInit {
         ).price;
         return (latestPrice - trading.price) * trading.amount;
       })
-      .reduce(this.sumReducer);
+      .reduce(this.sumReducer, 0);
   }
 
   private calculateTotalInvestedCost(tradings: Trading[]) {
@@ -253,7 +260,7 @@ export class OverviewComponent implements OnInit {
       .map((trading) => {
         return trading.amount * trading.price;
       })
-      .reduce(this.sumReducer);
+      .reduce(this.sumReducer, 0);
   }
 
   private calculateTotalInvestedValue(
@@ -268,7 +275,7 @@ export class OverviewComponent implements OnInit {
           latestPrices.find((price) => price.symbol === trading.symbol).price
         );
       })
-      .reduce(this.sumReducer);
+      .reduce(this.sumReducer, 0);
   }
 
   private findPercentageHolding(
@@ -279,7 +286,7 @@ export class OverviewComponent implements OnInit {
     const totalForSymbol = tradings
       .filter((trading) => trading.symbol === symbol)
       .map((trading) => trading.amount * trading.price)
-      .reduce(this.sumReducer);
+      .reduce(this.sumReducer, 0);
     return ((totalForSymbol * 100) / totalInvested).toPrecision(2) + '%';
   }
 
@@ -287,6 +294,6 @@ export class OverviewComponent implements OnInit {
     return tradings
       .filter((trading) => new Date(trading.date) > fromDate)
       .map((trading) => trading.sellingInfo.realisedPL)
-      .reduce(this.sumReducer);
+      .reduce(this.sumReducer, 0);
   }
 }
