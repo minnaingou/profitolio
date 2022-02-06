@@ -1,5 +1,5 @@
 import { ActionReducerMap } from "@ngrx/store";
-import * as fromTrading from "../tradings/store/trading.reducer";
+import * as fromTrading from "../portfolio/store/trading.reducer";
 
 export interface AppState {
   trading: fromTrading.State;
