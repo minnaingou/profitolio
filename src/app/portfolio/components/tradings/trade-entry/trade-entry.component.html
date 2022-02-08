@@ -114,7 +114,7 @@
     <input
       matInput
       [formControl]="totalControl"
-      [value]="+amount.value * +price.value"
+      [value]="(+amount.value * +price.value | number)"
     />
   </mat-form-field>
   <button

@@ -35,6 +35,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.location.replaceState(pathWithoutHash);
 
     this.uiService.tabChanged.next('/#Holdings');
+    this.uiService.showBackButton.next(false);
     const fragment = this.route.snapshot.fragment;
     if (fragment && fragment === 'Tradings') {
       this.activeTabIndex = 1;

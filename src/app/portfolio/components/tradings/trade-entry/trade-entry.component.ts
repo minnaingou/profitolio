@@ -189,12 +189,18 @@ export class TradeEntryComponent implements OnInit, OnDestroy {
         this.symbolControl.value;
       const type: string =
         tradingEntry.type || this.entryForm.get('type').value;
+      const entryDate = new Date(tradingEntry.date);
+      const now = new Date();
+      entryDate.setHours(now.getHours());
+      entryDate.setMinutes(now.getMinutes());
+      entryDate.setSeconds(now.getSeconds());
+      entryDate.setMilliseconds(now.getMilliseconds());
       const trading: Trading = {
         symbol: symbol.toLowerCase(),
         exchange: tradingEntry.exchange,
         type,
-        date: tradingEntry.date,
-        updatedDate: tradingEntry.date,
+        date: entryDate,
+        updatedDate: entryDate,
         amount: tradingEntry.amount,
         startingAmount: tradingEntry.amount,
         price: tradingEntry.price,
