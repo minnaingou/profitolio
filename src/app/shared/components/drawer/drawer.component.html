@@ -1,7 +1,32 @@
-<mat-nav-list disableRipple>
+<mat-nav-list disableRipple style="padding-top: 0">
   <a
+    *ngIf="!loggedIn"
     mat-list-item
-    routerLink="/"
+    routerLink="/auth"
+    class="auth-link"
+    (click)="onToggleDrawer()"
+  >
+    <mat-icon mat-list-icon>login</mat-icon>
+    <div mat-line>Login or Register</div>
+  </a>
+  <a
+    *ngIf="loggedIn"
+    mat-list-item
+    routerLink="/auth/logout"
+    class="auth-link"
+    (click)="onToggleDrawer()"
+  >
+    <mat-icon mat-list-icon>face</mat-icon>
+    <div mat-line>
+      <p style="font-weight: 500">{{ loggedInEmail }}</p>
+    </div>
+    <div mat-line>(Click to logout)</div>
+  </a>
+  <mat-divider></mat-divider>
+  <a
+    *ngIf="loggedIn"
+    mat-list-item
+    routerLink="/portfolio"
     routerLinkActive="active-link"
     (click)="onToggleDrawer()"
     [routerLinkActiveOptions]="{ exact: true }"

@@ -9,6 +9,10 @@ export const environment = {
   coingeckoBaseApiUrl: 'https://api.coingecko.com/api/v3',
   coingeckoLatestPrices: '/simple/price',
   coingeckoCoinList: '/coins/list',
+  authBaseUrl: 'https://identitytoolkit.googleapis.com/v1/accounts',
+  loginApi: ':signInWithPassword?key=',
+  signUpApi: ':signUp?key=',
+  apiKey: 'AIzaSyD0XJHFDrPlfZ4otpkX3N6YxczqeVlTW80',
 };
 
 /*

@@ -2,7 +2,6 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { map } from 'rxjs';
-
 import { environment } from 'src/environments/environment';
 import * as fromApp from '../../store/app.reducer';
 import { Trading } from '../models/tradings/trading.model';
@@ -15,9 +14,14 @@ export class TradingService {
     private store: Store<fromApp.AppState>
   ) {}
 
-  storeTrading(trading: Trading) {
+  storeTrading(userId: string, trading: Trading) {
     return this.http.post<Trading>(
-      environment.firebaseUrl + '/tradings/' + trading.symbol + '.json',
+      environment.firebaseUrl +
+        '/tradings/' +
+        userId +
+        '/' +
+        trading.symbol +
+        '.json',
       trading
     );
   }
@@ -40,27 +44,28 @@ export class TradingService {
     });
   }
 
-  getTradingList() {
-    return this.http.get(environment.firebaseUrl + '/tradings.json').pipe(
-      map((tradingsResponse) => {
-        if (!tradingsResponse) return [];
-        const tradings: Trading[] = Object.keys(tradingsResponse).reduce(
-          (allTradings, symbol) => {
-            const symbolTradings = Object.keys(tradingsResponse[symbol]).reduce(
-              (symbolTradings, key) => {
+  getTradingList(userId: string) {
+    return this.http
+      .get(environment.firebaseUrl + '/tradings/' + userId + '.json')
+      .pipe(
+        map((tradingsResponse) => {
+          if (!tradingsResponse) return [];
+          const tradings: Trading[] = Object.keys(tradingsResponse).reduce(
+            (allTradings, symbol) => {
+              const symbolTradings = Object.keys(
+                tradingsResponse[symbol]
+              ).reduce((symbolTradings, key) => {
                 symbolTradings.push({ ...tradingsResponse[symbol][key], key });
                 return symbolTradings;
-              },
-              []
-            );
-            allTradings.push(...symbolTradings);
-            return allTradings;
-          },
-          []
-        );
-        return tradings;
-      })
-    );
+              }, []);
+              allTradings.push(...symbolTradings);
+              return allTradings;
+            },
+            []
+          );
+          return tradings;
+        })
+      );
   }
 
   getExistingCoins() {
@@ -126,26 +131,48 @@ export class TradingService {
     }
   }
 
-  putTrading(key: string, symbol: string, trading: Trading) {
+  putTrading(userId: string, key: string, symbol: string, trading: Trading) {
     return this.http.put(
-      environment.firebaseUrl + '/tradings/' + symbol + '/' + key + '.json',
+      environment.firebaseUrl +
+        '/tradings/' +
+        userId +
+        '/' +
+        symbol +
+        '/' +
+        key +
+        '.json',
       trading
     );
   }
 
-  deleteTrading(key: string, symbol: string) {
+  deleteTrading(userId: string, key: string, symbol: string) {
     return this.http.delete(
-      environment.firebaseUrl + '/tradings/' + symbol + '/' + key + '.json'
+      environment.firebaseUrl +
+        '/tradings/' +
+        userId +
+        '/' +
+        symbol +
+        '/' +
+        key +
+        '.json'
     );
   }
 
   patchTrading(
+    userId: string,
     key: string,
     symbol: string,
     trading: { amount: number; updatedDate: Date; holding: boolean }
   ) {
     return this.http.patch(
-      environment.firebaseUrl + '/tradings/' + symbol + '/' + key + '.json',
+      environment.firebaseUrl +
+        '/tradings/' +
+        userId +
+        '/' +
+        symbol +
+        '/' +
+        key +
+        '.json',
       trading
     );
   }

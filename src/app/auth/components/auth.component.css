@@ -1,0 +1,31 @@
+.form-wrapper {
+  padding: 10px;
+  align-items: center;
+  justify-content: center;
+}
+
+.form-field {
+  width: 90%;
+}
+
+.notice-board {
+  background-color: rgb(229, 246, 253);
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+.notice-board > div {
+  padding: 10px;
+}
+
+.center {
+  align-items: center;
+  justify-content: center;
+}
+
+.bottom-row {
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 10px;
+}

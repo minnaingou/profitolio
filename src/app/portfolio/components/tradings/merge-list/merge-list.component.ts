@@ -6,13 +6,15 @@ import { Store } from '@ngrx/store';
 import Decimal from 'decimal.js';
 import { map, Subscription } from 'rxjs';
 import { Trading } from 'src/app/portfolio/models/tradings/trading.model';
-import { ConfirmDialogComponent, ConfirmDialogModel } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
+import {
+  ConfirmDialogComponent,
+  ConfirmDialogModel,
+} from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
 import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';
 import { UiService } from 'src/app/shared/services/ui.service';
 import { TOOLBAR_MERGE_HELP } from 'src/app/shared/ui-constants';
 import * as fromApp from '../../../../store/app.reducer';
 import * as TradingActions from '../../../store/trading.actions';
-
 
 @Component({
   selector: 'app-merge-list',
@@ -26,6 +28,7 @@ export class MergeListComponent implements OnInit, OnDestroy {
   eligibleTradings: Trading[];
   eligibleSymbolTradings: Trading[];
   mergable: boolean = false;
+  fetched: boolean = false;
 
   tradingStoreSubscription: Subscription;
   toolbarActionSubscription: Subscription;
@@ -44,8 +47,9 @@ export class MergeListComponent implements OnInit, OnDestroy {
       .select('trading')
       .pipe(map((state) => state.tradings))
       .subscribe((tradings) => {
-        if (tradings.length === 0) {
+        if (tradings.length === 0 && !this.fetched) {
           this.store.dispatch(new TradingActions.FetchTradings());
+          this.fetched = true;
         } else {
           this.eligibleTradings = this.filterEligibleTradings(tradings);
           this.eligibleSymbolTradings = this.filterBySelectedSymbol();
@@ -55,24 +59,25 @@ export class MergeListComponent implements OnInit, OnDestroy {
         }
       });
 
-    this.toolbarActionSubscription = this.uiService.toolbarButtonClicked.subscribe((action) => {
-      switch (action) {
-        case TOOLBAR_MERGE_HELP:
-          this.dialog.open(DialogComponent, {
-            data: {
-              title: 'About Merging',
-              content:
-                'Multiple records with small amount can be merged together to make up' +
-                ' a one big trade item so that it will be listed in the sell menu when you' +
-                ' create a new selling trade. This action will remove the old trade items' +
-                ' to create a new one and the information such as exchange, trading date' +
-                ' and the original amount will not be retained. You cannot undo the merging.',
-              closeLabel: 'I understand',
-            },
-          });
-          break;
-      }
-    });
+    this.toolbarActionSubscription =
+      this.uiService.toolbarButtonClicked.subscribe((action) => {
+        switch (action) {
+          case TOOLBAR_MERGE_HELP:
+            this.dialog.open(DialogComponent, {
+              data: {
+                title: 'About Merging',
+                content:
+                  'Multiple records with small amount can be merged together to make up' +
+                  ' a one big trade item so that it will be listed in the sell menu when you' +
+                  ' create a new selling trade. This action will remove the old trade items' +
+                  ' to create a new one and the information such as exchange, trading date' +
+                  ' and the original amount will not be retained. You cannot undo the merging.',
+                closeLabel: 'I understand',
+              },
+            });
+            break;
+        }
+      });
   }
 
   ngOnDestroy(): void {
@@ -154,7 +159,7 @@ export class MergeListComponent implements OnInit, OnDestroy {
         this.store.dispatch(
           new TradingActions.DeleteMultipleTrades(deleteList)
         );
-        this.router.navigate(['/'], { fragment: 'Tradings' });
+        this.router.navigate(['/portfolio'], { fragment: 'Tradings' });
       }
     });
   }
@@ -184,7 +189,7 @@ export class MergeListComponent implements OnInit, OnDestroy {
 
   private getDefaultPreview() {
     return {
-      symbol: this.selectedSymbol,
+      symbol: this.selectedSymbol ? this.selectedSymbol : 'N/A',
       amount: 0,
       date: new Date(),
       exchange: '',

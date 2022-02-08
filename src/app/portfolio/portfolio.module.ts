@@ -1,25 +1,6 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
-import { MatButtonModule } from '@angular/material/button';
-import { MatNativeDateModule } from '@angular/material/core';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatDividerModule } from '@angular/material/divider';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatListModule } from '@angular/material/list';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { MatSelectModule } from '@angular/material/select';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatTabsModule } from '@angular/material/tabs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
-import { ConfirmDialogComponent } from '../shared/components/confirm-dialog/confirm-dialog.component';
+import { SharedModule } from '../shared/shared.module';
 import { HoldingItemComponent } from './components/holdings/holding-item/holding-item.component';
 import { HoldingListComponent } from './components/holdings/holding-list/holding-list.component';
 import { HomeComponent } from './components/home/home.component';
@@ -44,33 +25,11 @@ import { PortfolioRoutingModule } from './portfolio-routing.module';
     TradingItemComponent,
     TradeEntryComponent,
     SellingTradeDialogComponent,
-    ConfirmDialogComponent,
     FilteringSheetComponent,
     OverviewComponent,
     MergeListComponent,
     OverviewItemComponent,
   ],
-  imports: [
-    CommonModule,
-    PortfolioRoutingModule,
-    BrowserAnimationsModule,
-    ReactiveFormsModule,
-    MatIconModule,
-    MatButtonModule,
-    MatTabsModule,
-    MatFormFieldModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatInputModule,
-    MatAutocompleteModule,
-    MatSelectModule,
-    MatSnackBarModule,
-    MatDialogModule,
-    MatBottomSheetModule,
-    MatListModule,
-    MatSlideToggleModule,
-    MatProgressBarModule,
-    MatDividerModule,
-  ],
+  imports: [SharedModule, PortfolioRoutingModule, BrowserAnimationsModule],
 })
 export class PortfolioModule {}

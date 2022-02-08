@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-
+import * as fromApp from '../../../store/app.reducer';
 import { LatestPrice } from '../../models/holding/latestPrice.model';
 import { OverviewSection } from '../../models/overview/overview.model';
 import { Trading } from '../../models/tradings/trading.model';
-import * as fromApp from '../../../store/app.reducer';
 
 @Component({
   selector: 'app-overview',
@@ -116,6 +115,10 @@ export class OverviewComponent implements OnInit {
   }
 
   private getHoldingPercentages(tradings: Trading[]): OverviewSection {
+    if (!tradings.length) {
+      return null;
+    }
+
     const assetAllocation: OverviewSection = {
       title: 'Asset Allocation Percentage',
       lines: null,
@@ -144,7 +147,7 @@ export class OverviewComponent implements OnInit {
             filteredTradings,
             totalInvestedCost
           );
-          resolve(result ? result : 0);
+          resolve(result ? result : '0');
         }),
       };
     });
@@ -247,10 +250,11 @@ export class OverviewComponent implements OnInit {
     return tradings
       .filter((trading) => trading.type === 'buy' && trading.holding)
       .map((trading) => {
-        const latestPrice: number = latestPrices.find(
+        const latestMarketData = latestPrices.find(
           (price) => price.symbol === trading.symbol
-        ).price;
-        return (latestPrice - trading.price) * trading.amount;
+        );
+        if (!latestMarketData) return 0;
+        return (latestMarketData.price - trading.price) * trading.amount;
       })
       .reduce(this.sumReducer, 0);
   }
@@ -271,10 +275,11 @@ export class OverviewComponent implements OnInit {
     return tradings
       .filter((trading) => trading.type === 'buy' && trading.holding)
       .map((trading) => {
-        return (
-          trading.amount *
-          latestPrices.find((price) => price.symbol === trading.symbol).price
+        const latestMarketData = latestPrices.find(
+          (price) => price.symbol === trading.symbol
         );
+        if (!latestMarketData) return 0;
+        return trading.amount * latestMarketData.price;
       })
       .reduce(this.sumReducer, 0);
   }
@@ -288,7 +293,8 @@ export class OverviewComponent implements OnInit {
       .filter((trading) => trading.symbol === symbol)
       .map((trading) => trading.amount * trading.price)
       .reduce(this.sumReducer, 0);
-    return ((totalForSymbol * 100) / totalInvested).toPrecision(2) + '%';
+    const percent = (totalForSymbol * 100) / totalInvested;
+    return Math.round(percent * 100) / 100 + '%';
   }
 
   private calculateRealisedPLFromDate(tradings: Trading[], fromDate: Date) {

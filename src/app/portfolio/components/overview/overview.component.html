@@ -3,7 +3,10 @@
   <mat-divider></mat-divider>
   <app-overview-item [section]="investmentSummarySection"></app-overview-item>
   <mat-divider></mat-divider>
-  <app-overview-item [section]="assetAllocationSection"></app-overview-item>
+  <app-overview-item
+    *ngIf="assetAllocationSection"
+    [section]="assetAllocationSection"
+  ></app-overview-item>
   <mat-divider></mat-divider>
   <app-overview-item [section]="historicalSection"></app-overview-item>
 </mat-list>

@@ -1,0 +1,56 @@
+<form [formGroup]="authForm" class="column form-wrapper">
+  <h2>
+    Welcome to Profitolio
+    <mat-icon style="color: burlywood">waving_hand</mat-icon>
+  </h2>
+  <span *ngIf="isSignUp">Register now to start tracking your portfolio.</span>
+  <span *ngIf="!isSignUp">Login to access your portfolio.</span>
+  <br />
+  <mat-form-field appearance="fill" class="form-field">
+    <mat-icon matPrefix style="color: rgba(0, 0, 0, 0.6)">email</mat-icon>
+    <mat-label> Email</mat-label>
+    <input matInput type="email" formControlName="email" />
+    <mat-error> Invalid email address </mat-error>
+  </mat-form-field>
+  <mat-form-field appearance="fill" class="form-field">
+    <mat-icon matPrefix style="color: rgba(0, 0, 0, 0.6)">password</mat-icon>
+    <mat-label> Password</mat-label>
+    <input matInput type="password" formControlName="password" />
+    <mat-error> Password must be at least 6 characters </mat-error>
+  </mat-form-field>
+  <div class="row form-field bottom-row">
+    <span>
+      <a class="link" (click)="switchMode()">
+        {{ isSignUp ? "Sign in instead" : "Create account" }}
+      </a>
+    </span>
+    <div>
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="onAuth()"
+        style="width: 140px"
+        [disabled]="!authForm.valid || loading"
+      >
+        <ng-container *ngIf="isSignUp && !loading">
+          <mat-icon>person_add</mat-icon> Register
+        </ng-container>
+        <ng-container *ngIf="!isSignUp && !loading">
+          <mat-icon>login</mat-icon> Login
+        </ng-container>
+        <ng-container *ngIf="loading">
+          <mat-icon>hourglass_top</mat-icon> Please wait
+        </ng-container>
+      </button>
+    </div>
+  </div>
+</form>
+<div class="row notice-board">
+  <div>
+    <mat-icon>info</mat-icon>
+  </div>
+  <div>
+    BETA notice! Profitolio is currently not checking if the email actually
+    exists. You can sign up with anything as long as it looks like an email.
+  </div>
+</div>

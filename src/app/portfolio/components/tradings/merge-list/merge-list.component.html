@@ -1,6 +1,9 @@
 <div class="column">
   <mat-form-field appearance="fill" class="sticky-selector">
-    <mat-label>You are merging</mat-label>
+    <mat-label *ngIf="eligibleSymbols; else empty"
+      >You are merging</mat-label
+    >
+    <ng-template #empty><mat-label>No data</mat-label></ng-template>
     <mat-select [(value)]="selectedSymbol" (selectionChange)="onSymbolChange()">
       <mat-option *ngFor="let symbol of eligibleSymbols" value="{{ symbol }}">
         {{ symbol | uppercase }}

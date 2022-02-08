@@ -1,15 +1,18 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { Store } from '@ngrx/store';
 import {
   catchError,
   concat,
   forkJoin,
-  map, of,
+  map,
+  of,
   switchMap,
-  throwError
+  throwError,
+  withLatestFrom
 } from 'rxjs';
-
 import { UiService } from 'src/app/shared/services/ui.service';
+import * as fromApp from '../../store/app.reducer';
 import { Trading } from '../models/tradings/trading.model';
 import { TradingService } from '../services/trading.service';
 import * as TradingActions from '../store/trading.actions';
@@ -19,30 +22,34 @@ export class TradingEffects {
   constructor(
     private actions$: Actions,
     private tradingService: TradingService,
-    private uiService: UiService
+    private uiService: UiService,
+    private store: Store<fromApp.AppState>
   ) {}
 
   storeTrading = createEffect(() => {
     return this.actions$.pipe(
       ofType(TradingActions.STORE_TRADING),
       map((storeTrading: TradingActions.StoreTrading) => storeTrading.payload),
-      switchMap((payload: Trading) => {
-        return this.tradingService.storeTrading(payload).pipe(
-          map(() => {
-            this.uiService.displaySnackbar.next({
-              error: false,
-              message: 'Record is saved.',
-            });
-            return new TradingActions.StoreTradingSuccess(payload);
-          }),
-          catchError(() => {
-            this.uiService.displaySnackbar.next({
-              error: true,
-              message: 'Failed to save trade record.',
-            });
-            return of({ type: 'DUMMY' });
-          })
-        );
+      withLatestFrom(this.store.select('auth')),
+      switchMap(([payload, authState]) => {
+        return this.tradingService
+          .storeTrading(authState.user.userId, payload)
+          .pipe(
+            map(() => {
+              this.uiService.displaySnackbar.next({
+                error: false,
+                message: 'Record is saved.',
+              });
+              return new TradingActions.StoreTradingSuccess(payload);
+            }),
+            catchError(() => {
+              this.uiService.displaySnackbar.next({
+                error: true,
+                message: 'Failed to save trade record.',
+              });
+              return of({ type: 'DUMMY' });
+            })
+          );
       })
     );
   });
@@ -75,7 +82,7 @@ export class TradingEffects {
                 map(() => {
                   return new TradingActions.FetchLatestPrices();
                 })
-              ),
+              )
               // this.tradingService.saveExchangeInfo(payload.exchange).pipe(
               //   map(() => {
               //     return { type: 'DUMMY' };
@@ -91,8 +98,9 @@ export class TradingEffects {
   fetchTradings = createEffect(() => {
     return this.actions$.pipe(
       ofType(TradingActions.FETCH_TRADINGS),
-      switchMap(() => {
-        return this.tradingService.getTradingList();
+      withLatestFrom(this.store.select('auth')),
+      switchMap(([action, authState]) => {
+        return this.tradingService.getTradingList(authState.user.userId);
       }),
       map((tradings: Trading[]) => {
         return new TradingActions.FetchTradingsSuccess(tradings);
@@ -133,7 +141,7 @@ export class TradingEffects {
               }
               return new TradingActions.FetchCoinListSuccess(coinList);
             })
-          ),
+          )
           // this.tradingService.getExistingExchanges().pipe(
           //   map((exchangeList) => {
           //     return new TradingActions.FetchExchangeListSuccess(exchangeList);
@@ -151,12 +159,18 @@ export class TradingEffects {
         map(
           (amendBuyTrade: TradingActions.AmendBuyTrade) => amendBuyTrade.payload
         ),
-        switchMap((payload: Trading) => {
-          return this.tradingService.patchTrading(payload.key, payload.symbol, {
-            amount: payload.amount,
-            updatedDate: new Date(),
-            holding: payload.holding,
-          });
+        withLatestFrom(this.store.select('auth')),
+        switchMap(([payload, authState]) => {
+          return this.tradingService.patchTrading(
+            authState.user.userId,
+            payload.key,
+            payload.symbol,
+            {
+              amount: payload.amount,
+              updatedDate: new Date(),
+              holding: payload.holding,
+            }
+          );
         })
       );
     },
@@ -167,10 +181,16 @@ export class TradingEffects {
     return this.actions$.pipe(
       ofType(TradingActions.EDIT_TRADE),
       map((editTrade: TradingActions.EditTrade) => editTrade.payload),
-      switchMap((payload: { key: string; trading: Trading }) => {
+      withLatestFrom(this.store.select('auth')),
+      switchMap(([payload, authState]) => {
         let trading: Trading = { ...payload.trading };
         return this.tradingService
-          .putTrading(payload.key, trading.symbol, trading)
+          .putTrading(
+            authState.user.userId,
+            payload.key,
+            trading.symbol,
+            trading
+          )
           .pipe(
             map(() => {
               this.uiService.displaySnackbar.next({
@@ -195,9 +215,10 @@ export class TradingEffects {
     return this.actions$.pipe(
       ofType(TradingActions.DELETE_TRADE),
       map((deleteTrade: TradingActions.DeleteTrade) => deleteTrade.payload),
-      switchMap((payload) => {
+      withLatestFrom(this.store.select('auth')),
+      switchMap(([payload, authState]) => {
         return this.tradingService
-          .deleteTrading(payload.key, payload.symbol)
+          .deleteTrading(authState.user.userId, payload.key, payload.symbol)
           .pipe(
             map(() => {
               return new TradingActions.DeleteTradeSuccess(payload.key);
@@ -221,10 +242,12 @@ export class TradingEffects {
         (deleteMultipleTrades: TradingActions.DeleteMultipleTrades) =>
           deleteMultipleTrades.payload
       ),
-      switchMap((payload) => {
+      withLatestFrom(this.store.select('auth')),
+      switchMap(([payload, authState]) => {
         const httpObservableMap: {} = {};
         payload.forEach((item) => {
           httpObservableMap[item.key] = this.tradingService.deleteTrading(
+            authState.user.userId,
             item.key,
             item.symbol
           );
@@ -232,7 +255,6 @@ export class TradingEffects {
         return forkJoin(httpObservableMap);
       }),
       map((keyMap) => {
-        console.log('deleting keys', keyMap);
         const deletedKeys: string[] = Object.keys(keyMap).map((key) => key);
         return new TradingActions.DeleteMultipleTradesSuccess(deletedKeys);
       })

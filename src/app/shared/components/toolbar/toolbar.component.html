@@ -47,12 +47,12 @@
         <mat-icon>add</mat-icon>
       </button>
     </div>
-    <div *ngIf="currentpage == '/new'">
+    <div *ngIf="currentpage == '/portfolio/new'">
       <button mat-icon-button (click)="onToolbarAction('ENTRY_DONE')">
         <mat-icon>done</mat-icon>
       </button>
     </div>
-    <div *ngIf="currentpage == '/edit'">
+    <div *ngIf="currentpage == '/portfolio/edit'">
       <button mat-icon-button (click)="onToolbarAction('DELETE')">
         <mat-icon>delete</mat-icon>
       </button>
@@ -60,7 +60,7 @@
         <mat-icon>done</mat-icon>
       </button>
     </div>
-    <div *ngIf="currentpage == '/merge'">
+    <div *ngIf="currentpage == '/portfolio/merge'">
       <button mat-icon-button (click)="onToolbarAction('MERGE_HELP')">
         <mat-icon>help_outline</mat-icon>
       </button>

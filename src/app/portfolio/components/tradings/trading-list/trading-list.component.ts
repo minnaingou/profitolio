@@ -57,7 +57,7 @@ export class TradingListComponent implements OnInit, OnDestroy {
   }
 
   onEdit(data: { symbol: string; key: string }) {
-    this.router.navigate(['/edit', data.symbol, data.key]);
+    this.router.navigate(['/portfolio/edit', data.symbol, data.key]);
   }
 
   openFilterSheet(): void {

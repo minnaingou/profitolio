@@ -50,8 +50,8 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     this.router.events
       .pipe(filter((e) => e instanceof NavigationStart))
       .subscribe((event: NavigationStart) => {
-        if (event.url.startsWith('/edit/')) {
-          this.currentpage = '/edit';
+        if (event.url.startsWith('/portfolio/edit/')) {
+          this.currentpage = '/portfolio/edit';
         } else {
           this.currentpage = event.url;
         }
@@ -80,11 +80,11 @@ export class ToolbarComponent implements OnInit, OnDestroy {
   onToolbarAction(action: string) {
     switch (action) {
       case 'ADD':
-        this.router.navigate(['/new']);
+        this.router.navigate(['/portfolio/new']);
         break;
       case 'BACK':
         const lastTab = localStorage.getItem('lastTab');
-        this.router.navigate(['../'], { fragment: lastTab ? lastTab : '' });
+        this.router.navigate(['/portfolio'], { fragment: lastTab ? lastTab : '' });
         this.uiService.showBackButton.next(false);
         break;
       case 'ENTRY_DONE':
@@ -100,7 +100,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
         this.uiService.toolbarButtonClicked.next(TOOLBAR_FILTER);
         break;
       case 'MERGE':
-        this.router.navigate(['/merge']);
+        this.router.navigate(['/portfolio/merge']);
         break;
       case 'MERGE_HELP':
         this.uiService.toolbarButtonClicked.next(TOOLBAR_MERGE_HELP);

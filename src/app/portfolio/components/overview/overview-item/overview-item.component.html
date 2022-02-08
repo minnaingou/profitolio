@@ -5,7 +5,13 @@
       <mat-icon mat-list-icon>{{ line.icon }}</mat-icon>
       <div style="padding-left: 16px">{{ line.title }}</div>
     </div>
-    <div>
+    <div
+      *ngIf="
+        (line.content | async) !== null &&
+          (!line.currency || (line.currency && (line.content | async)) >= 0);
+        else loadingRow
+      "
+    >
       {{ line.currency ? ((line.content | async) >= 0 ? "" : "-") : "" }}
       {{
         line.currency
@@ -13,6 +19,11 @@
           : (line.content | async)
       }}
     </div>
+    <ng-template #loadingRow>
+      <div style="width: 40px">
+        <mat-progress-bar mode="buffer" color="primary"></mat-progress-bar>
+      </div>
+    </ng-template>
   </div>
   <ng-template #columnDisplay>
     <mat-icon mat-list-icon style="position: absolute; top: 20px">{{
@@ -22,7 +33,11 @@
       <div mat-line style="padding-bottom: 5px">{{ line.title }}</div>
       <div
         mat-line
-        *ngIf="line.content | async; else loading"
+        *ngIf="
+          (line.content | async) !== null &&
+            (!line.currency || (line.currency && (line.content | async)) >= 0);
+          else loadingColumn
+        "
         style="height: 24px"
       >
         <span style="font-size: 14">
@@ -34,7 +49,7 @@
           }}</span
         >
       </div>
-      <ng-template #loading>
+      <ng-template #loadingColumn>
         <div style="width: 40px">
           <mat-progress-bar mode="buffer" color="primary"></mat-progress-bar>
         </div>

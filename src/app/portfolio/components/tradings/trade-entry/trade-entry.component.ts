@@ -149,7 +149,7 @@ export class TradeEntryComponent implements OnInit, OnDestroy {
         data: {
           content: 'No record found.',
           onCloseHandler: () => {
-            this.router.navigate(['/'], { fragment: 'Tradings' });
+            this.router.navigate(['/portfolio'], { fragment: 'Tradings' });
           },
         },
       });
@@ -213,7 +213,7 @@ export class TradeEntryComponent implements OnInit, OnDestroy {
         this.tradingService.createNewTrading(trading);
       }
 
-      this.router.navigate(['/'], { fragment: 'Tradings' });
+      this.router.navigate(['/portfolio'], { fragment: 'Tradings' });
     }
   }
 
@@ -233,7 +233,7 @@ export class TradeEntryComponent implements OnInit, OnDestroy {
       });
       dialogRef.afterClosed().subscribe((dialogResult) => {
         if (dialogResult) {
-          this.router.navigate(['/'], { fragment: 'Tradings' });
+          this.router.navigate(['/portfolio'], { fragment: 'Tradings' });
           this.store.dispatch(
             new TradingActions.DeleteTrade({
               key: this.editingKey,
