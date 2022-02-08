@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AboutComponent } from '../about/about.component';
 import { AuthGuard } from '../auth/auth.guard';
 import { HomeComponent } from './components/home/home.component';
 import { MergeListComponent } from './components/tradings/merge-list/merge-list.component';
@@ -19,7 +18,6 @@ const routes: Routes = [
         data: { edit: true },
       },
       { path: 'merge', component: MergeListComponent },
-      { path: 'about', component: AboutComponent },
     ],
   },
 ];
