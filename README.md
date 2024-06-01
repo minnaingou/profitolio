@@ -20,3 +20,5 @@ It empowers you to effortlessly track your crypto investments across multiple pl
 * Advanced Sorting & Filtering: Organize your portfolio data for better analysis. Sort by crypto performance, profit earned, or trade date. Filter records by trade type, platform used, date, and amount.
 * Record Merging & Average Price Calculation: Clean up your trade history by merging entries with varying prices. Profitolio automatically calculates the average price for merged records, ensuring accurate P&L tracking.
 * Built-in Handy Tools: Essential tools like average price calculator and percentage calculator are baked into the app to help you make informed trading decisions.
+
+Note: Please contact me for the demo account login credentials with sample data, or you can create an account with any email address.
